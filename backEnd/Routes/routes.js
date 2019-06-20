@@ -34,6 +34,10 @@ router.route('/login').post(userController.login);
 // router.route('/logout').get(middleware.authenticate, userController.logout);
 
 router.route('/createPost').post(middleware.authenticate, postController.createPost);
-router.route('/getPostByCreator').post(middleware.authenticate, postController.getPostByCreator);
+router.route('/getPostByCreator/:id').get(middleware.authenticate, postController.getPostByCreator);
+router.route('/setLikesCount/:id').put(middleware.authenticate, postController.setLikesCount);
+router
+  .route('/getLikesCountByPostId/:id')
+  .get(middleware.authenticate, postController.getLikesCountByPostId);
 
 module.exports = router;

@@ -1,25 +1,25 @@
 const mongoose = require('mongoose');
 
-let ToDoSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  checked: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
-  createdAt: {
-    type: Date,
-    default: new Date(),
-  },
+let CommentsSchema = new mongoose.Schema({
   creator: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
+  text: {
+    type: String,
+    required: true,
+  },
+  date: {
+    type: Date,
+    default: new Date(),
+  },
+  likes: {
+    type: Number,
+    required: true,
+    default: 0
+  },
 });
 
-let ToDoModel = mongoose.model('Posts', ToDoSchema);
+let CommentModel = mongoose.model('Comment', CommentsSchema);
 
-module.exports = ToDoModel;
+module.exports = CommentModel;

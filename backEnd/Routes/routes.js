@@ -2,6 +2,7 @@ const router = require('express').Router();
 const toDoController = require('../Controllers/toDoController');
 const userController = require('../Controllers/userController');
 const middleware = require('../Middleware/middleware');
+const commentsController = require('../Controllers/commentsController')
 
 // router
 //   .route('/toDoItem')
@@ -17,5 +18,10 @@ const middleware = require('../Middleware/middleware');
 // router.route('/getUser').get(userController.getUser);
 // router.route('/login').post(userController.login);
 // router.route('/logout').get(middleware.authenticate, userController.logout);
+
+
+  .route('/createComments')
+  .post(middleware.authenticate, commentsController.createComments)
+
 
 module.exports = router;

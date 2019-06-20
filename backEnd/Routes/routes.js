@@ -9,6 +9,7 @@ const commentController = require('../Controllers/commentController')
 //   .post(middleware.authenticate, postController.createToDoItem)
 //   .get(middleware.authenticate, postController.getAllItems);
 // //.put(middleware.authenticate, postController.getAllItems)   //pats darasiau
+//.put(middleware.authenticate, postController.getAllItems)   //pats darasiau
 
 // //sita visa pilna rauta isikeliau is saves
 // // router.route('/toDoItem/:id')
@@ -40,5 +41,8 @@ router.route('/login').post(userController.login);
   router.route('/createComments')
   .post(middleware.authenticate, commentController.createComments)
 
+
+router.route('/createPost').post(middleware.authenticate, postController.createPost);
+router.route('/getPostByCreator').post(middleware.authenticate, postController.getPostByCreator);
 
 module.exports = router;

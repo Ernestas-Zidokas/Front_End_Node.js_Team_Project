@@ -15,18 +15,12 @@ let PostSchema = new mongoose.Schema({
   },
   likes: {
     type: Number,
-    required: true,
+    //required: true,
     default: 0
   },
-  likes: {
+  likesCount: {
     type: Number,
-    required: true,
     default: 0,
-  },
-  comments: {
-    // reikia schemos id komentarams
-    type: mongoose.Schema.Types.ObjectId,
-    required: false,
   },
 });
 

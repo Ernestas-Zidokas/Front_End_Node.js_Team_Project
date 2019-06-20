@@ -13,6 +13,10 @@ let CommentSchema = new mongoose.Schema({
     type: Date,
     default: new Date(),
   },
+  postID: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+  }
 });
 
 let CommentModel = mongoose.model('Comments', CommentSchema);

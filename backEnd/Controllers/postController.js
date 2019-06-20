@@ -6,8 +6,7 @@ let createPost = (request, response) => {
   post.title = data.title;
   post.creator = request.user._id;
   post.photo = data.photo;
-  post.likes = data.likes;
-  post.comments = data.comments;
+  post.likesCount = data.likesCount;
 
   post
     .save()
@@ -18,6 +17,8 @@ let createPost = (request, response) => {
       response.status(400).json(e);
     });
 };
+
+let getPostByCreator = (require, response) => {};
 
 // let getAllItems = (request, response) => {
 //   ToDoModel.find({
@@ -97,6 +98,7 @@ let createPost = (request, response) => {
 
 module.exports = {
   createPost,
+  getPostByCreator,
   // getAllItems,
   // deleteItem,
   // markAllChecked,

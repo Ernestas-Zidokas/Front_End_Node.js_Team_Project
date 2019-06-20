@@ -58,22 +58,6 @@ function getAllItems() {
 }
 
 
-// function createElements(data) {
-//   let ul = document.getElementById("list")
-//   ul.innerHTML = ''
-//   for (let i = 0; i < data.length; i++) {
-//     let li = document.createElement('li')
-//     li.classList.add('list-group-item', 'd-flex', 'justify-content-between')
-//     if (data[i].checked) li.classList.add('list-group-item-success')
-//     li.textContent = data[i].title
-//     let span = document.createElement('span')
-//     span.classList.add('badge', 'badge-danger', 'badge-pill')
-//     span.innerHTML = '<ion-icon name="close"></ion-icon>'
-//     li.appendChild(span)
-//     ul.appendChild(li)
-//   }
-// }
-
 //mano creteElements funkcija
 function createElements(data) {
   let ul = document.getElementById("list")

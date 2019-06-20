@@ -19,15 +19,19 @@ let createPost = (request, response) => {
     });
 };
 
-let getPostByCreator = (require, response) => {};
+//let getPostByCreator = (require, response) => {};
 
-// let getAllItems = (request, response) => {
-//   ToDoModel.find({
-//     creator: request.user._id,
-//   }).then(items => {
-//     response.json(items);
-//   });
-// };
+
+
+//zygis sita daro
+let getLastTenPosts = (request, response) => {
+  PostModel.find({
+    creator: request.user._id,
+  }).then(items => {
+    console.log(items)
+    response.json(items);
+  });
+};
 
 // let deleteItem = (req, res) => {
 //   let data = req.body;
@@ -99,8 +103,8 @@ let getPostByCreator = (require, response) => {};
 
 module.exports = {
   createPost,
-  getPostByCreator,
-  // getAllItems,
+  //getPostByCreator,
+  getLastTenPosts,
   // deleteItem,
   // markAllChecked,
   // deleteItemById,

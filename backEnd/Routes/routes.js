@@ -34,6 +34,7 @@ router.route('/login').post(userController.login);
 // router.route('/logout').get(middleware.authenticate, userController.logout);
 
 router.route('/createPost').post(middleware.authenticate, postController.createPost);
-router.route('/getPostByCreator').post(middleware.authenticate, postController.getPostByCreator);
+//router.route('/getPostByCreator').post(middleware.authenticate, postController.getPostByCreator);
+router.route('/getLastTenPosts').get(middleware.authenticate, postController.getLastTenPosts)
 
 module.exports = router;

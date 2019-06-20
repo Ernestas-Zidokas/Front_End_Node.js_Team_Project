@@ -19,7 +19,9 @@ let createPost = (request, response) => {
 };
 
 let getPostByCreator = (request, response) => {
+  console.log('tea');
   let id = request.param('id');
+  console.log(id);
   PostModel.findOne({
     _id: id,
     creator: request.user._id,
@@ -30,6 +32,7 @@ let getPostByCreator = (request, response) => {
     .catch(e => {
       response.status(400).json(e);
     });
+  console.log(request.user._id);
 };
 let setLikesCount = (request, response) => {
   let id = request.params.id;

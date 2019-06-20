@@ -9,14 +9,13 @@ let PostSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  creator: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+  },
   date: {
     type: Date,
     default: new Date(),
-  },
-  likes: {
-    type: Number,
-    //required: true,
-    default: 0
   },
   likesCount: {
     type: Number,

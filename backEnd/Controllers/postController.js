@@ -19,6 +19,8 @@ let createPost = (request, response) => {
     });
 };
 
+let getPostByCreator = (require, response) => {};
+
 // let getAllItems = (request, response) => {
 //   ToDoModel.find({
 //     creator: request.user._id,
@@ -97,6 +99,7 @@ let createPost = (request, response) => {
 
 module.exports = {
   createPost,
+  getPostByCreator,
   // getAllItems,
   // deleteItem,
   // markAllChecked,

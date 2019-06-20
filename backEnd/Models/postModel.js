@@ -17,9 +17,8 @@ let PostSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
-  likes: {
+  likesCount: {
     type: Number,
-    required: true,
     default: 0,
   },
   comments: {

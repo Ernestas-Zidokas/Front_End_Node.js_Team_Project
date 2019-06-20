@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const toDoController = require('../Controllers/toDoController');
-const userController = require('../Controllers/userController');
+const postController = require('../Controllers/postController');
+// const userController = require('../Controllers/userController');
 const middleware = require('../Middleware/middleware');
 
 // router
@@ -17,5 +17,7 @@ const middleware = require('../Middleware/middleware');
 // router.route('/getUser').get(userController.getUser);
 // router.route('/login').post(userController.login);
 // router.route('/logout').get(middleware.authenticate, userController.logout);
+
+router.route('/createPost').post(middleware.authenticate, postController.createPost);
 
 module.exports = router;

@@ -1,14 +1,13 @@
 const mongoose = require('mongoose');
 
-let ToDoSchema = new mongoose.Schema({
+let PostSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
   },
-  checked: {
-    type: Boolean,
+  photo: {
+    type: String,
     required: true,
-    default: false,
   },
   createdAt: {
     type: Date,
@@ -18,8 +17,18 @@ let ToDoSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
+  likes: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
+  comments: {
+    // reikia schemos id komentarams
+    type: mongoose.Schema.Types.ObjectId,
+    required: false,
+  },
 });
 
-let ToDoModel = mongoose.model('Posts', ToDoSchema);
+let postModel = mongoose.model('Posts', PostSchema);
 
-module.exports = ToDoModel;
+module.exports = postModel;

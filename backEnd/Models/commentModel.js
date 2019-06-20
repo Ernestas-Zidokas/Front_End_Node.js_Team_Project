@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-let CommentsSchema = new mongoose.Schema({
+let CommentSchema = new mongoose.Schema({
   creator: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
@@ -15,6 +15,6 @@ let CommentsSchema = new mongoose.Schema({
   },
 });
 
-let CommentsModel = mongoose.model('Comments', CommentsSchema);
+let CommentModel = mongoose.model('Comments', CommentSchema);
 
 module.exports = CommentModel;

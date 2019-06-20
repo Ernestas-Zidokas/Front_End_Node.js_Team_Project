@@ -1,17 +1,13 @@
-const {
-    CommentModel 
-} = require('../Models/commentsModel');
+const CommentModel = require('../Models/commentModel');
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
-const {
-  superSecret
-} = require('./../config/config')
+
 
 let createComments = (req, res) => {
     let data = req.body
-    let comments = new Comment()
+    let comments = new CommentModel()
     comments.text = data.text
-    comments.creator = request.user._id;
+    comments.creator = req.user._id;
     comments.save().then(comentas => 
         res.json(comentas)).catch(e => res.json(e))
 }

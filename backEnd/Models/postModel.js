@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
-let CommentsSchema = new mongoose.Schema({
-  creator: {
-    type: mongoose.Schema.Types.ObjectId,
+let PostSchema = new mongoose.Schema({
+  title: {
+    type: String,
     required: true,
   },
-  text: {
+  photo: {
     type: String,
     required: true,
   },
@@ -18,8 +18,18 @@ let CommentsSchema = new mongoose.Schema({
     required: true,
     default: 0
   },
+  likes: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
+  comments: {
+    // reikia schemos id komentarams
+    type: mongoose.Schema.Types.ObjectId,
+    required: false,
+  },
 });
 
-let CommentModel = mongoose.model('Comment', CommentsSchema);
+let postModel = mongoose.model('Posts', PostSchema);
 
-module.exports = CommentModel;
+module.exports = postModel;

@@ -3,21 +3,27 @@ let bcrypt = require('bcrypt');
 let jwt = require('jsonwebtoken');
 let config = require('../config/config');
 
+
 let register = (request, response) => {
   let data = request.body;
-  if (data.password == data.passwordAgain) {
+  if (data.password == data.passwordAgain) {            //buvo taip: if (data.password == data.passwordAgain) {  as mutryniau Again nuo password
     let user = new UserModel();
     user.email = data.email;
     user.password = data.password;
+    user.description = data.description;
+    user.name = data.name;
+
     user.save().then(user => {
-      response.json(user).catch(e => {
+      response.json(user).catch((e) => {          //papildomai apskliaudziau e raide
         response.status(400).json(e);
       });
     });
   } else {
-    response.status(401).json('passwords dont match');
+    response.status(401).json('passwords dont match ima is userController.js failo');
   }
 };
+
+
 
 let login = (request, res) => {
   let data = request.body;

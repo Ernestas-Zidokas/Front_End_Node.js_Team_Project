@@ -20,6 +20,6 @@ let ToDoSchema = new mongoose.Schema({
   },
 });
 
-let ToDoModel = mongoose.model('Posts', ToDoSchema);
+let PostModel = mongoose.model('Posts', ToDoSchema);
 
-module.exports = ToDoModel;
+module.exports = PostModel;

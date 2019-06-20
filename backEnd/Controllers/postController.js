@@ -1,8 +1,8 @@
-let ToDoModel = require('../Models/toDoModel');
+let PostModel = require('../Models/postModel');
 
 let createToDoItem = (request, response) => {
   let data = request.body;
-  let toDo = new ToDoModel();
+  let toDo = new PostModel();
   toDo.title = data.title;
   toDo.creator = request.user._id;
   toDo
@@ -16,7 +16,7 @@ let createToDoItem = (request, response) => {
 };
 
 let getAllItems = (request, response) => {
-  ToDoModel.find({
+  PostModel.find({
     creator: request.user._id,
   }).then(items => {
     response.json(items);
@@ -25,7 +25,7 @@ let getAllItems = (request, response) => {
 
 let deleteItem = (req, res) => {
   let data = req.body;
-  ToDoModel.deleteOne({
+  PostModel.deleteOne({
     creator: req.user._id,
     _id: data._id,
   })
@@ -38,7 +38,7 @@ let deleteItem = (req, res) => {
 };
 
 let markAllChecked = (req, res) => {
-  ToDoModel.updateMany(
+  PostModel.updateMany(
     { creator: req.user._id },
     {
       checked: true,
@@ -52,7 +52,7 @@ let markAllChecked = (req, res) => {
 
 let deleteItemById = (req, res) => {
   let id = req.params.id;
-  ToDoModel.deleteOne({
+  PostModel.deleteOne({
     _id: id,
     creator: req.user._id,
   })
@@ -64,7 +64,7 @@ let deleteItemById = (req, res) => {
 
 let getItem = (req, res) => {
   let id = req.param('id');
-  ToDoModel.findOne({
+  PostModel.findOne({
     _id: id,
     creator: req.user._id,
   })
@@ -78,7 +78,7 @@ let getItem = (req, res) => {
 
 let toogleItem = (req, res) => {
   let id = req.params.id;
-  ToDoModel.findOne({
+  PostModel.findOne({
     _id: id,
     creator: req.user._id,
   })

@@ -1,5 +1,4 @@
 function login() {
-  console.log()
   let email = document.getElementById('loginEmail').value;
   let pass = document.getElementById('loginPassword').value;
 
@@ -18,7 +17,14 @@ function login() {
       return res.json()
     })
     .then(data => {
-      location.replace("http://localhost:8080/index.html")
+      console.log(data)
+      if (data == 'No user with this email'){
+        alert('No user with this email')
+      } else if (data == 'incorrect password') {
+        alert('incorrect password')
+      } else {
+        location.replace("http://localhost:8080/instaFeed.html")
+      }
     })
     .catch((err) => {
       console.log(err)

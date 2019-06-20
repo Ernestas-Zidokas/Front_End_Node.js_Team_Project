@@ -1,5 +1,5 @@
-const secretSalt = 'salt';
+const secretSalt = 'salt'
 
 module.exports = {
-  secretSalt,
+  secretSalt
 };

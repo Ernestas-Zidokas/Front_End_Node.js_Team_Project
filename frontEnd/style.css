@@ -50,3 +50,7 @@ input {
   top: 10px;
   right: 10px;
 }
+.registerError {
+  color: red;
+  margin-top: 20px;
+}

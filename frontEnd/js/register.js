@@ -7,26 +7,32 @@ function registerUser() {
 
 
   if (name == "") {
-    alert("Name field is empty")
+    let txt = "Name field is empty!"
+    showError(txt)
     return
   }
   if (email == "") {
-    alert("Email field is empty")
+    let txt = "Email field is empty!"
+    showError(txt)
     return
   }
   if (pass == "") {
-    alert("Password field is empty")
+    let txt = "Password field is empty!"
+    showError(txt)
     return
   }
   if (rpass == "") {
-    alert("Repeat password field is empty")
+    let txt = "Repeat password field is empty!"
+    showError(txt)
     return
   }
   if (description == "") {
-    alert("Description field is empty")
+    let txt = "Description field is empty!"
+    showError(txt)
   }
   if (pass != rpass) {
-    alert("Passwords do not match")
+    let txt = "Passwords do not match!"
+    showError(txt)
     return
   }
 
@@ -56,4 +62,12 @@ function registerUser() {
       alert(content)
     }
   })();
+}
+
+function showError(txt) {
+  let output = document.getElementById("registerOutput")
+  output.textContent = ""
+  let span = document.createElement("span")
+  span.textContent = (txt)
+  output.appendChild(span)
 }

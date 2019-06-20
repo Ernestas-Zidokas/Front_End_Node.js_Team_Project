@@ -7,7 +7,6 @@ let createPost = (request, response) => {
   post.creator = request.user._id;
   post.photo = data.photo;
   post.likesCount = data.likesCount;
-  post.comments = data.comments;
 
   post
     .save()

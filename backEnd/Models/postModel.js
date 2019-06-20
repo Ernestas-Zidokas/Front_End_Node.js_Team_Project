@@ -9,22 +9,18 @@ let PostSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  createdAt: {
+  date: {
     type: Date,
     default: new Date(),
   },
-  creator: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
+  likes: {
+    type: Number,
+    //required: true,
+    default: 0
   },
   likesCount: {
     type: Number,
     default: 0,
-  },
-  comments: {
-    // reikia schemos id komentarams
-    type: mongoose.Schema.Types.ObjectId,
-    required: false,
   },
 });
 

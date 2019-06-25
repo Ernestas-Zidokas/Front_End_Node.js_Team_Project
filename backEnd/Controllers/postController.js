@@ -2,7 +2,7 @@ let PostModel = require('../Models/postModel');
 
 let createPost = (request, response) => {
   let data = request.body;
-  let file = 'http://127.0.0.1:8080/' + req.file.path;
+  let file = 'http://127.0.0.1:8080/' + request.file.path;
   let post = new PostModel();
   post.title = data.title;
   post.creator = request.user._id;

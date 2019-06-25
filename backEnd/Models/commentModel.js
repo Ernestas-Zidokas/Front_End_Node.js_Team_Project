@@ -14,9 +14,9 @@ let CommentSchema = new mongoose.Schema({
     default: new Date(),
   },
   postID: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-  }
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+  },
 });
 
 let CommentModel = mongoose.model('Comments', CommentSchema);

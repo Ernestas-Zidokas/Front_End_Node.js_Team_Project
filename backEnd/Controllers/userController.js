@@ -6,7 +6,6 @@ let config = require('../config/config');
 let register = (request, response) => {
   let data = request.body;
   if (data.password == data.passwordAgain) {
-    //buvo taip: if (data.password == data.passwordAgain) {  as mutryniau Again nuo password
     let user = new UserModel();
     user.email = data.email;
     user.password = data.password;

@@ -37,18 +37,8 @@ window.addEventListener('load', () => {
 
 let openPost = document.getElementById('post');
 openPost.addEventListener('click', event => {
-  // let name = document.getElementById('name');
-  // let phone = document.getElementById('phone');
-  // let object = { name: name.value, phone: phone.value, isEdit: false, isFav: false };
-  // addressBook.push(object);
-  // console.log(addressBook);
-
-  // clearList();
-  // document.getElementById('safeplace').appendChild(render());
-  // window.localStorage.setItem('list', JSON.stringify(addressBook));
-  // console.log(addressBook);
   console.log('openPost');
-  let post = { title: 'alus', src: 'pictures/1234.jpg' };
+  let post = { title: 'alus', src: 'pictures/1234.jpg', likes: '20', comments: 'comantarais' };
   document.querySelector('#test').appendChild(openPhoto(post));
 });
 
@@ -74,50 +64,25 @@ function openPhoto(post) {
 
   let image = document.createElement('img');
   image.src = post.src;
-  modalHeader.classList.add('big-picture');
+  image.classList.add('big-picture');
+
+  let modalBody = document.createElement('div');
+  modalBody.classList.add('modal-body');
+
+  let likes = document.createElement('p');
+  likes.textContent = post.likes;
+
+  let comments = document.createElement('p');
+  comments.textContent = post.comments;
 
   modalHeader.appendChild(modalTitle);
-  modalHeader.appendChild(image);
+  modalBody.appendChild(image);
+  modalBody.appendChild(likes);
+  modalBody.appendChild(comments);
+
   modalContent.appendChild(modalHeader);
+  modalContent.appendChild(modalBody);
   modalDialog.appendChild(modalContent);
   modal.appendChild(modalDialog);
   return modal;
 }
-// Get the modal
-let modal = document.getElementById('myModal');
-
-// Get the button that opens the modal
-let btn = document.getElementById('addPost');
-
-// Get the <span> element that closes the modal
-let span = document.getElementsByClassName('close')[0];
-
-// When the user clicks the button, open the modal
-btn.onclick = function() {
-  modal.style.display = 'block';
-};
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-  modal.style.display = 'none';
-};
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = 'none';
-  }
-};
-
-// Upload Image
-
-let input = document.querySelector('input[type="file"]');
-
-let data = new FormData();
-data.append('file', input.files[0]);
-data.append('user', 'hubot');
-
-fetch('/avatars', {
-  method: 'POST',
-  body: data,
-});

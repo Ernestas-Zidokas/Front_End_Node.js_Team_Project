@@ -6,8 +6,7 @@ let createPost = (request, response) => {
   post.title = data.title;
   post.creator = request.user._id;
   post.photo = data.photo;
-  post.likes = data.likes;
-  post.comments = data.comments;
+  post.likesCount = data.likesCount;
 
   post
     .save()
@@ -19,19 +18,63 @@ let createPost = (request, response) => {
     });
 };
 
-//let getPostByCreator = (require, response) => {};
-
-
-
-//zygis sita daro
-let getLastTenPosts = (request, response) => {
-  PostModel.find({
+let getPostByCreator = (request, response) => {
+  let id = request.param('id');
+  PostModel.findOne({
+    _id: id,
     creator: request.user._id,
+  })
+    .then(item => {
+      response.json(item);
+    })
+    .catch(e => {
+      response.status(400).json(e);
+    });
+};
+let setLikesCount = (request, response) => {
+  let id = request.params.id;
+  PostModel.findOne({
+    _id: id,
+    creator: request.user._id,
+  })
+    .then(item => {
+      item.likesCount++;
+      item.save().then(savedItem => response.json(savedItem));
+    })
+    .catch(e => {
+      response.status(400).json(e);
+    });
+};
+let getLikesCountByPostId = (request, response) => {
+  let id = request.param('id');
+  PostModel.findOne({
+    _id: id,
+    creator: request.user._id,
+  })
+    .then(item => {
+      response.json(item.likesCount);
+    })
+    .catch(e => {
+      response.status(400).json(e);
+    });
+};
+
+
+
+
+let getLastTenPosts = (request, response) => {
+  //let postTime = request.param('date')
+  PostModel.find({
+      creator: request.user._id,      //buvo si eilute
   }).then(items => {
     console.log(items)
     response.json(items);
+  })
+  .catch(e => {
+    response.status(400).json(e);
   });
 };
+
 
 // let deleteItem = (req, res) => {
 //   let data = req.body;
@@ -105,6 +148,9 @@ module.exports = {
   createPost,
   //getPostByCreator,
   getLastTenPosts,
+  getPostByCreator,
+  setLikesCount,
+  getLikesCountByPostId,
   // deleteItem,
   // markAllChecked,
   // deleteItemById,

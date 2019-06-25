@@ -1,6 +1,7 @@
 let openPost = document.getElementById('post');
 openPost.addEventListener('click', event => {
-  let post = { title: 'alus', src: 'pictures/1234.jpg' };
+  console.log('openPost');
+  let post = { title: 'alus', src: 'pictures/1234.jpg', likes: '20', comments: 'comantarais' };
   document.querySelector('#test').appendChild(openPhoto(post));
 });
 
@@ -26,11 +27,24 @@ function openPhoto(post) {
 
   let image = document.createElement('img');
   image.src = post.src;
-  modalHeader.classList.add('big-picture');
+  image.classList.add('big-picture');
+
+  let modalBody = document.createElement('div');
+  modalBody.classList.add('modal-body');
+
+  let likes = document.createElement('p');
+  likes.textContent = post.likes;
+
+  let comments = document.createElement('p');
+  comments.textContent = post.comments;
 
   modalHeader.appendChild(modalTitle);
-  modalHeader.appendChild(image);
+  modalBody.appendChild(image);
+  modalBody.appendChild(likes);
+  modalBody.appendChild(comments);
+
   modalContent.appendChild(modalHeader);
+  modalContent.appendChild(modalBody);
   modalDialog.appendChild(modalContent);
   modal.appendChild(modalDialog);
 

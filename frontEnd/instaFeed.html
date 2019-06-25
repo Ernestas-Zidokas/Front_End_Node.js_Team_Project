@@ -1,10 +1,10 @@
 <html>
 
 <head>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="./css/instafeed.css" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="shortcut icon" type="image/png" href="icons/instagram_icon.png"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/instafeed.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="shortcut icon" type="image/png" href="icons/instagram_icon.png" />
 </head>
 
 <body>
@@ -30,14 +30,16 @@
                             <i class="material-icons">perm_identity</i>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#"> </a>
-                            <i class="material-icons">add_circle_outline</i>
+                            <a class="nav-link" href="#"></a>
+                            <i class="material-icons" id="addPost">add_circle_outline</i>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
 
 <div class="feed">
     <div class="container">
@@ -71,12 +73,45 @@
 </div>
 </div>
 </div>
+      <!-- Modal content -->
+      <div class="modal-content">
+
+        <span class="close">&times;</span>
+        <h4> Upload Image</h4>
+         <input placeholder="Title"> </input>
+        <p>Choose image</p>
+        <input type="file"
+       id="avatar" name="avatar"
+       accept="image/png, image/jpeg">
+      </div>
+  </div>
+
+
+
+
+    <div class="feed">
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-8">
+                    <div class="post">
+                        <!-- <img src="pictures/1234.jpg" class="rounded mx-auto d-block"> -->
+                    </div>
+                </div>
+            </div>
+        </div>
 
 </body>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/ionicons@4.5.9-1/dist/ionicons.js"></script>
+<<<<<<< HEAD
 <script src="./js/instaFeed.js"></script>
+=======
+<script src="./js/toDoList.js"></script>
+<script src="./js/instaFeed.js"></script>
+</html>
+
+>>>>>>> 30654e97b102a5192382d99987b85bd30fcec7c9
 
 </html>

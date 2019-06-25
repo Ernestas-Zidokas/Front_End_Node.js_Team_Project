@@ -4,6 +4,9 @@ let User = require('../Models/userModel');
 
 let authenticate = (req, res, next) => {
   let token = req.header('x-auth');
+  console.log(req.file);
+  console.log(req.body);
+  console.log(req.files);
   let decoded;
   try {
     decoded = jwt.verify(token, config.secretSalt);

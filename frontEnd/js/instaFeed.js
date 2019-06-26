@@ -35,7 +35,10 @@ window.addEventListener('load', () => {
       let postInfo = document.createElement("div")
       let postLikes = document.createElement("span")
       let postComments = document.createElement("span")
-      let postNewestComment = document.createElement("div")
+      let line = document.createElement("div")
+      line.className = "line"
+
+    
 
       singlePost.className = "singlePost"
       postHeader.className = "postHeader"
@@ -45,9 +48,6 @@ window.addEventListener('load', () => {
       postInfo.className = "postInfo"
       postLikes.className = "likesAndComments"
       postComments.className = "likesAndComments"
-      postNewestComment.className = "postNewestComment"
-      // console.log(getUser(data[i].creator));
-      // console.log(data[i].title);
 
       postCreator.textContent = data[i].creator.name     
       postTitle.textContent = data[i].title
@@ -66,10 +66,10 @@ window.addEventListener('load', () => {
       postComments.textContent = "💬" +  "12"
 
       singlePost.appendChild(postInfo)
-      singlePost.appendChild(postNewestComment)
-      postNewestComment.textContent = data[i].creator + " - " + data[i].date + " - " + data[i].title
 
       instaFeed.appendChild(singlePost)
+
+      instaFeed.appendChild(line)
 
       postCreator.addEventListener("click", event => {
         console.log("Post creator: " + data[i].creator)

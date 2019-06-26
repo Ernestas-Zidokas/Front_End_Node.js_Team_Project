@@ -1,10 +1,5 @@
 window.addEventListener('load', () => {
-  createInstaFeed()
-});
-
-
-
-fetch('http://localhost:3000/api/getLastTenPosts', {
+  fetch('http://localhost:3000/api/getLastTenPosts', {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
@@ -22,6 +17,9 @@ fetch('http://localhost:3000/api/getLastTenPosts', {
   .catch((err) => {
     console.log(err)
   })
+});
+
+
 
   function createInstaFeed(data) {
     let instaFeed = document.getElementById("post")
@@ -41,14 +39,17 @@ fetch('http://localhost:3000/api/getLastTenPosts', {
 
       singlePost.className = "singlePost"
       postHeader.className = "postHeader"
+      postImage.className = "postImage"
       postCreator.className = "postCreator"
       postTitle.className = "postTitle"
       postInfo.className = "postInfo"
       postLikes.className = "likesAndComments"
       postComments.className = "likesAndComments"
       postNewestComment.className = "postNewestComment"
+      // console.log(getUser(data[i].creator));
+      // console.log(data[i].title);
 
-      postCreator.textContent = data[i].creator
+      postCreator.textContent = data[i].creator.name     
       postTitle.textContent = data[i].title
       postImage.src = data[i].photo
 
@@ -182,10 +183,12 @@ document.querySelector('#createPost').addEventListener('click', () => {
     .then(res => {
       return res.json();
     })
-    .then(data => {
-      console.log(data);
+    .then(item => {
+      console.log(item);
+      location.reload();
     })
     .catch(err => {
       console.log(err);
     });
 });
+

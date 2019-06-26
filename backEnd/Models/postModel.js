@@ -21,6 +21,7 @@ let PostSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  creator: { type: mongoose.Schema.Types.ObjectId, ref: 'Users' }
 });
 
 let postModel = mongoose.model('Posts', PostSchema);

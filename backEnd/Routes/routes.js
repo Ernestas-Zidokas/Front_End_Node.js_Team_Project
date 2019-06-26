@@ -7,6 +7,8 @@ const commentController = require('../Controllers/commentController');
 router.route('/register').post(userController.register);
 router.route('/login').post(userController.login);
 router.route('/createComments').post(middleware.authenticate, commentController.createComments);
+router.route('/getPostCommentsById/:id').get(middleware.authenticate, commentController.getPostCommentsById);
+
 router.route('/createPost').post(middleware.authenticate, postController.createPost);
 router.route('/getPostByCreator/:id').get(middleware.authenticate, postController.getPostByCreator);
 router.route('/setLikesCount/:id').put(middleware.authenticate, postController.setLikesCount);

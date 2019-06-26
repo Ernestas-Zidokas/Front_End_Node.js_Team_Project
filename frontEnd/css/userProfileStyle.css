@@ -1,0 +1,142 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+    font-size: 10px;
+    background-color: #fafafa;
+}
+
+
+.header {
+
+}
+
+img {
+    display: block;
+}
+
+.container {
+    max-width: 93.5rem;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.btn {
+    display: inline-block;
+    font: inherit;
+    background: none;
+    border: none;
+    color: inherit;
+    padding: 0;
+    cursor: pointer;
+}
+
+.profile {
+    padding: 5rem 0;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: repeat(3, auto);
+    grid-column-gap: 3rem;
+    align-items: center;
+}
+
+.profile-photo {
+    grid-row: 1 / -1;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-photo img {
+    border-radius: 50%;
+    height: 152px;
+}
+
+.profile-info {
+    
+}
+
+.profile-user-name {
+    display: inline-block;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+    grid-template-rows: repeat(auto-fit, minmax(22rem, 1fr));
+    grid-gap: 2rem;
+}
+
+.gallery-image {
+    width: 100%;
+
+    /* height: 100%; // palikus dalies foto aukstis defaultina i 0*/
+    object-fit: cover;
+}
+
+
+
+/* .container {
+    display: grid;
+    grid-template-rows: 7% 30% 1fr 7%;
+    grid-template-columns: [sidebar-start] minmax(0px, 1.5fr) [sidebar-end photo-start] 
+    repeat(3, [col-start] 2fr [col-end]) 
+    [photo-end side-start] minmax(0px, 1.5fr) [side-end];
+    
+}
+
+header {
+    grid-column: 1 / -1 
+}
+
+.side-one {
+    grid-column: sidebar-start / sidebar-end;
+    grid-row: 2 / 5;
+}
+
+
+.user-info {
+    grid-column: sidebar-end / side-start; 
+
+    display: grid;
+
+}
+
+.side-two {
+    grid-column: side-start / side-end;
+    grid-row: 2 / -1;
+}
+
+.photo-container {
+   grid-column: sidebar-end / side-start;
+
+   display: grid;
+   grid-template-columns: [photo-start] repeat(3, [col-start] minmax(auto, 300px) [col-end]) 
+    [photo-end];
+    grid-template-rows: repeat(3, [row-start] minmax(100px, 300px) [row-end]);
+   grid-column-gap: 10px;
+    grid-row-gap: 10px;
+}
+
+.photo-container__item-1 {
+    grid-column: photo-start / col-end 1;
+    
+}
+
+.photo-container__item-2 {
+    grid-column: col-end 1 / col-end 2;
+    
+}
+
+.photo-container__item-3 {
+    grid-column: col-end 2 / col-end 3;
+}
+
+footer {
+    grid-column: sidebar-end / side-start; 
+} */

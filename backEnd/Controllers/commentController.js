@@ -12,10 +12,11 @@ let createComments = (req, res) => {
     .catch(e => res.json(e));
 };
 
-let getComments = (req, res) => {
-  User.find(
+let getPostCommentsById = (req, res) => {
+    let id = req.params.id;
+    CommentModel.find(
     {
-      creator: req.user.id,
+     postID: id,
     },
     (error, comments) => {
       if (error) {
@@ -29,5 +30,5 @@ let getComments = (req, res) => {
 
 module.exports = {
   createComments,
-  getComments,
+  getPostCommentsById,
 };

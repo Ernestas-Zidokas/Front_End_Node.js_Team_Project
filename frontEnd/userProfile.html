@@ -5,33 +5,36 @@
   <title>Users Profile</title>
 </head>
 
-<body class="container">
+<body>
 
   <header class="header">
 
   </header>
 
-  <div class="user-info">
+  <div class="user-header">
     <div class="container">
       <div class="profile">
         <div class="profile-photo">
           <img src="https://imatge-upc.github.io/wav2pix/assets/authors/KevinMcGuinness.jpg" alt="">
         </div>
-        <div class="profile-info">
-          <h1 class="profile-user-name">_yourNick</h1>
-          <button class="btn edit-profile">Edit profile</button>
-          <button>Edit profile</button>
 
-        </div>
-        <div class="profile-stats">
-          <ul class="stats">
-            <li class="stats-posts"><span class="stats-count">134</span>posts</li>
-            <li class="stats-followers"><span class="stats-count">235</span>followers</li>
-            <li class="stats-following"><span class="stats-count">167</span>following</li>
-          </ul>
-        </div>
-        <div class="profile-bio">
-          <p><span class="real-name">Jonas Jonaitis</span>Something about me</p>
+        <div class="user-info">
+          <div class="profile-info">
+            <h1 class="profile-user-name">_yourNick</h1>
+            <button class="btn edit-profile">Edit profile</button>
+          </div>
+
+          <div class="profile-stats">
+            <ul>
+              <li><span class="profile-stats-count">134</span>posts</li>
+              <li><span class="profile-stats-count">235</span>followers</li>
+              <li><span class="profile-stats-count">167</span>following</li>
+              </ul>
+          </div>
+
+          <div class="profile-bio">
+            <p><span class="real-name">Jonas Jonaitis</span>Something about me</p>
+          </div>
         </div>
       </div>
       <!--End of user profile-->
@@ -40,28 +43,20 @@
   </div>
 
   <main>
-
     <div class="container">
-
       <div class="gallery">
-
         <div class="gallery-item" tabindex="0">
-
           <img
             src="https://images.unsplash.com/photo-1561373080-a0414ea12327?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
             class="gallery-image" alt="">
-
           <div class="gallery-item-info">
-
             <ul>
               <li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fas fa-heart"
                   aria-hidden="true"></i> 122</li>
               <li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment"
                   aria-hidden="true"></i> 23</li>
             </ul>
-
           </div>
-
         </div>
 
         <div class="gallery-item" tabindex="0">
@@ -311,47 +306,12 @@
 
         </div>
       </div>
+    </div>
   </main>
-
-
-  <!-- <div class="side-one">
-    Left side
-  </div>
-  <div class="user-info">
-    
-    <div class="user__foto">
-      User foto
-    </div>
-    <div class="user__info">
-        User info 
-    </div>
-  </div>
-  <div class="photo-container">
-    <div class="photo-container__item-1">
-      Foto 1
-    </div>
-    <div class="photo-container__item-2">
-      Foto 2
-    </div>
-    <div class="photo-container__item-3">
-      Foto 3
-    </div>
-    <div class="photo-container__item-1">
-        Foto 1
-      </div>
-      <div class="photo-container__item-2">
-        Foto 2
-      </div>
-      <div class="photo-container__item-3">
-        Foto 3
-      </div>
-  </div>
-  <div class="side-two">
-      Right side
-    </div>
+   
   <footer class="footer">
     Footer
-  </footer> -->
+  </footer>
 
   <script src="./js/userProfile.js"></script>
 </body>

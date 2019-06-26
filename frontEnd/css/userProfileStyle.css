@@ -3,16 +3,13 @@
 *::after {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 body {
     font-size: 10px;
+    font-family: "Open Sans", Arial, sans-serif;
     background-color: #fafafa;
-}
-
-
-.header {
-
 }
 
 img {
@@ -20,7 +17,8 @@ img {
 }
 
 .container {
-    max-width: 93.5rem;
+
+    max-width: 73.5rem;
     margin: 0 auto;
     padding: 0 2rem;
 }
@@ -57,27 +55,45 @@ img {
     height: 152px;
 }
 
-.profile-info {
-    
+.user-info {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    grid-row-gap: 2rem;
+    align-items: center;
 }
 
 .profile-user-name {
     display: inline-block;
 }
 
+ul {
+    list-style-type: none;
+    text-align: center;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(3rem, 6rem));
+}
+
+.profile-stats-count {
+    display: inline-block;
+    margin: 0 .5rem;
+}
+
+
+
 .gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
-    grid-template-rows: repeat(auto-fit, minmax(22rem, 1fr));
-    grid-gap: 2rem;
+    grid-template-columns: repeat(3, minmax(7rem, 20rem));
+    grid-gap: .8rem;
+    
 }
+
 
 .gallery-image {
     width: 100%;
-
-    /* height: 100%; // palikus dalies foto aukstis defaultina i 0*/
+    height: 100%; 
     object-fit: cover;
 }
+
 
 
 

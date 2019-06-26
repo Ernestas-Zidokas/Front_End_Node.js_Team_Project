@@ -1,44 +1,31 @@
-window.addEventListener('load', () => {
-  // if (!localStorage.getItem('website-x-auth-token')) {
-  //   location.replace("http://localhost:8080/login.html")
-  // } else {
-  //    let token = localStorage.getItem('website-x-auth-token')
-  // }
-  // getAllItems()
-});
-
-// function createItem() {
-//   let title = document.getElementById('newItem').value
-//   if (!title) {
-//     alert("Cant create empty item")
-//     return
-//   }
-
-//   fetch('http://localhost:3000/api/toDoItem', {
-//       method: 'POST',
-//       headers: {
-//         'Accept': 'application/json',
-//         'Content-Type': 'application/json',
-//         'x-auth': token
-//       },
-//       body: JSON.stringify({
-//         title
-//       })
-//     }).then(res => {
-//       return res.json()
-//     })
-//     .then(data => {
-//       getAllItems()
-//     })
-//     .catch((err) => {
-//       console.log(err)
-//     })
-// }
-
 let openPost = document.getElementById('post');
 openPost.addEventListener('click', event => {
   console.log('openPost');
-  let post = { title: 'alus', src: 'pictures/1234.jpg', likes: '20', comments: 'comantarais' };
+  let post = {
+    title: 'alus',
+    src: 'pictures/1234.jpg',
+    likes: 20,
+    comments: [
+      {
+        text:
+          'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur,',
+        postID: '12345654',
+        creator: 'somebody',
+      },
+      {
+        text:
+          'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which dont look even slightly believable.',
+        postID: '1234222',
+        creator: 'somebody1',
+      },
+      {
+        text:
+          'The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',
+        postID: '12345333',
+        creator: 'somebody2',
+      },
+    ],
+  };
   document.querySelector('#test').appendChild(openPhoto(post));
 });
 
@@ -69,22 +56,42 @@ function openPhoto(post) {
   let modalBody = document.createElement('div');
   modalBody.classList.add('modal-body');
 
-  let likes = document.createElement('p');
-  likes.textContent = post.likes;
-
-  let comments = document.createElement('p');
-  comments.textContent = post.comments;
+  let likes = document.createElement('div');
+  likes.setAttribute('style', 'padding-right: 322px; margin-bottom: 20px;');
+  likes.textContent = `${post.likes} People Likes That`;
 
   modalHeader.appendChild(modalTitle);
   modalBody.appendChild(image);
   modalBody.appendChild(likes);
-  modalBody.appendChild(comments);
+  modalBody.appendChild(renderComments(post.comments));
 
   modalContent.appendChild(modalHeader);
   modalContent.appendChild(modalBody);
   modalDialog.appendChild(modalContent);
   modal.appendChild(modalDialog);
   return modal;
+}
+
+function renderComments(arrayOfObjects) {
+  let commentsList = document.createElement('div');
+  commentsList.setAttribute('style', 'display:flex; flex-direction: column;');
+  arrayOfObjects.forEach(object => {
+    let comment = document.createElement('div');
+    comment.setAttribute('style', 'display:flex; flex-direction: row;');
+
+    let commentText = document.createElement('p');
+    commentText.setAttribute('style', 'margin-left: 10px; text-align: justify;');
+    commentText.textContent = object.text;
+
+    let commentCreator = document.createElement('a');
+    commentCreator.href = object.creator;
+    commentCreator.innerHTML = object.creator;
+
+    comment.appendChild(commentCreator);
+    comment.appendChild(commentText);
+    commentsList.appendChild(comment);
+  });
+  return commentsList;
 }
 // Get the modal
 let modal = document.getElementById('myModal');

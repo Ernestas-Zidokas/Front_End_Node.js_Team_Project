@@ -38,7 +38,7 @@ body {
   box-shadow: 1px 12px 21px -2px rgba(192, 192, 192, 0.81);
   background: white;
   width: 1014px;
-  height: auto; /*buvo 800px */
+  height: auto;
   padding-right: 0px;
 }
 
@@ -101,25 +101,58 @@ body {
 
 /* nuo cia mano css bus */
 .singlePost {
-  border-bottom: 2px solid lightgrey;
+  /*border-bottom: 4px solid black;*/
+  margin: 14px;
 }
+
 .postHeader {
-  color: red;
+  color: #262626;
   margin-top: 30px;
   margin-bottom: 10px;
+  font-size: 25px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-left: 5px;
+  margin-left: -5px;
 }
+
 .postCreator {
   padding-right: 20px;
+  margin-bottom: 5px;
 }
+
 .postImage {
+  width: 614px;
+  height: 767px;
 }
+
 .likesAndComments {
   padding-right: 20px;
 }
+
 .postInfo {
   padding-top: 10px;
   padding-bottom: 10px;
 }
+
 .postNewestComment {
   padding-bottom: 20px;
+}
+
+.postTitle {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: right;
+  align-items: stretch;
+  align-content: stretch;
+  font-size: 15px;
+  font-style: italic;
+}
+
+.line {
+  height: 15px;
+  background-color: #e9e9e9;
+  margin-left: -15px;
 }

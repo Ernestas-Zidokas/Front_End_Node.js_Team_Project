@@ -22,8 +22,6 @@ window.addEventListener('load', () => {
 function createInstaFeed(data) {
   let instaFeed = document.getElementById('post');
   instaFeed.innerHTML = '';
-  //let image = document.getElementById("image")
-  //singlePost.innerHTML = "hhhhhhhhhhhhhhhh"
   for (let i = 0; i < data.length; i++) {
     let singlePost = document.createElement('p');
     let postHeader = document.createElement('h4');
@@ -67,6 +65,69 @@ function createInstaFeed(data) {
     postNewestComment.textContent = data[i].creator + ' - ' + data[i].date + ' - ' + data[i].title;
 
     instaFeed.appendChild(singlePost);
+
+    postCreator.addEventListener('click', event => {
+      console.log('Post creator: ' + data[i].creator);
+    });
+    postImage.addEventListener('click', event => {
+      document.querySelector('#test').appendChild(openPhoto(data[i]));
+    });
+    postLikes.addEventListener('click', event => {
+      console.log('Like skaicius ' + data[i].likesCount);
+    });
+    postComments.addEventListener('click', event => {
+      console.log('kolkas negaunu duomenu susijusiu su komentarais');
+    });
+  }
+}
+
+function createInstaFeed(data) {
+  let instaFeed = document.getElementById('post');
+  instaFeed.innerHTML = '';
+  for (let i = 0; i < data.length; i++) {
+    let singlePost = document.createElement('p');
+    let postHeader = document.createElement('h4');
+    let postCreator = document.createElement('span');
+    let postTitle = document.createElement('span');
+    let postImage = document.createElement('img');
+    let postInfo = document.createElement('div');
+    let postLikes = document.createElement('span');
+    let postComments = document.createElement('span');
+    let line = document.createElement('div');
+    line.className = 'line';
+
+    singlePost.className = 'singlePost';
+    postHeader.className = 'postHeader';
+    postImage.className = 'postImage';
+    postCreator.className = 'postCreator';
+    postTitle.className = 'postTitle';
+    postInfo.className = 'postInfo';
+    postLikes.className = 'likesAndComments';
+    postComments.className = 'likesAndComments';
+
+    postCreator.textContent = data[i].creator.name;
+    postTitle.textContent = data[i].title;
+    postImage.src = data[i].photo;
+    postImage.dataset.target = '#exampleModal';
+    postImage.dataset.toggle = 'modal';
+
+    postHeader.appendChild(postCreator);
+    postHeader.appendChild(postTitle);
+
+    singlePost.appendChild(postHeader);
+    singlePost.appendChild(postImage);
+
+    postInfo.appendChild(postLikes);
+    postLikes.textContent = '♥️ ' + data[i].likesCount;
+
+    postInfo.appendChild(postComments);
+    postComments.textContent = '💬' + '12';
+
+    singlePost.appendChild(postInfo);
+
+    instaFeed.appendChild(singlePost);
+
+    instaFeed.appendChild(line);
 
     postCreator.addEventListener('click', event => {
       console.log('Post creator: ' + data[i].creator);
@@ -147,7 +208,7 @@ function openPhoto(post) {
   modalContent.appendChild(modalBody);
   modalDialog.appendChild(modalContent);
   modal.appendChild(modalDialog);
-
+  console.log(modal);
   return modal;
 }
 
@@ -233,8 +294,9 @@ document.querySelector('#createPost').addEventListener('click', () => {
     .then(res => {
       return res.json();
     })
-    .then(data => {
-      console.log(data);
+    .then(item => {
+      console.log(item);
+      location.reload();
     })
     .catch(err => {
       console.log(err);

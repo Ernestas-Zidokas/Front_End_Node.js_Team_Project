@@ -66,6 +66,7 @@ let getLikesCountByPostId = (request, response) => {
 
 let getLastTenPosts = (request, response) => {
   PostModel.find()
+    .populate('creator')
     .limit(10)
     .sort({ date: -1 })
     .then(items => {

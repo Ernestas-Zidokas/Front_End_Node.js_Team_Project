@@ -74,10 +74,24 @@ let logout = (req, res) => {
     .catch(e => res.status(400).json(e));
 };
 
-let getUser = (request, response) => {
-  let data = request.body;
-  UserModel.find({ email: data.email }).then(user => {
-    response.json(user);
+// let getUser = (request, response) => {
+//   let data = request.body;
+//   UserModel.find({ _id: data.email }).then(user => {
+//     response.json(user);
+//   });
+// };
+
+let getUser =  (request, response) => {
+  let id = request.param('id');
+  UserModel.
+  find({
+    _id: id,
+  }).
+  then(items => {
+    response.json(items);
+  })
+  .catch(error => {
+    response.status(400).json(error);
   });
 };
 

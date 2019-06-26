@@ -15,7 +15,7 @@ let PostSchema = new mongoose.Schema({
   },
   date: {
     type: Date,
-    default: new Date(),
+    default: () => {return new Date()},
   },
   likesCount: {
     type: Number,

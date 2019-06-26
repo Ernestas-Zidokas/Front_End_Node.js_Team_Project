@@ -2,7 +2,9 @@ let PostModel = require('../Models/postModel');
 
 let createPost = (request, response) => {
   let data = request.body;
-  let file = 'http://127.0.0.1:8080/' + request.file.path;
+  console.log(request.file);
+
+  let file = 'http://localhost:3000/' + request.file.path;
   let post = new PostModel();
   post.title = data.title;
   post.creator = request.user._id;
@@ -62,8 +64,22 @@ let getLikesCountByPostId = (request, response) => {
     });
 };
 
+let getLastTenPosts = (request, response) => {
+  PostModel.find()
+    .limit(10)
+    .sort({ date: -1 })
+    .then(items => {
+      response.json(items);
+    })
+    .catch(error => {
+      response.status(400).json(error);
+    });
+};
+
 module.exports = {
   createPost,
+  getPostByCreator,
+  getLastTenPosts,
   getPostByCreator,
   setLikesCount,
   getLikesCountByPostId,

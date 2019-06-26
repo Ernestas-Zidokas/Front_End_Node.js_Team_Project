@@ -1,35 +1,90 @@
-let openPost = document.getElementById('post');
-openPost.addEventListener('click', event => {
-  console.log('openPost');
-  let post = {
-    title: 'alus',
-    src: 'pictures/1234.jpg',
-    likes: 20,
-    comments: [
-      {
-        text:
-          'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur,',
-        postID: '12345654',
-        creator: 'somebody',
-      },
-      {
-        text:
-          'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which dont look even slightly believable.',
-        postID: '1234222',
-        creator: 'somebody1',
-      },
-      {
-        text:
-          'The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',
-        postID: '12345333',
-        creator: 'somebody2',
-      },
-    ],
-  };
-  document.querySelector('#test').appendChild(openPhoto(post));
+window.addEventListener('load', () => {
+  fetch('http://localhost:3000/api/getLastTenPosts', {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(res => {
+      return res.json();
+    })
+    .then(data => {
+      console.log(data);
+      createInstaFeed(data);
+      return data;
+    })
+    .catch(err => {
+      console.log(err);
+    });
 });
 
+function createInstaFeed(data) {
+  let instaFeed = document.getElementById('post');
+  instaFeed.innerHTML = '';
+  //let image = document.getElementById("image")
+  //singlePost.innerHTML = "hhhhhhhhhhhhhhhh"
+  for (let i = 0; i < data.length; i++) {
+    let singlePost = document.createElement('p');
+    let postHeader = document.createElement('h4');
+    let postCreator = document.createElement('span');
+    let postTitle = document.createElement('span');
+    let postImage = document.createElement('img');
+    let postInfo = document.createElement('div');
+    let postLikes = document.createElement('span');
+    let postComments = document.createElement('span');
+    let postNewestComment = document.createElement('div');
+
+    singlePost.className = 'singlePost';
+    postHeader.className = 'postHeader';
+    postCreator.className = 'postCreator';
+    postTitle.className = 'postTitle';
+    postInfo.className = 'postInfo';
+    postLikes.className = 'likesAndComments';
+    postComments.className = 'likesAndComments';
+    postNewestComment.className = 'postNewestComment';
+
+    postCreator.textContent = data[i].creator;
+    postTitle.textContent = data[i].title;
+    postImage.src = data[i].photo;
+    postImage.dataset.toggle = 'modal';
+    postImage.dataset.target = '#exampleModal';
+
+    postHeader.appendChild(postCreator);
+    postHeader.appendChild(postTitle);
+
+    singlePost.appendChild(postHeader);
+    singlePost.appendChild(postImage);
+
+    postInfo.appendChild(postLikes);
+    postLikes.textContent = '♥️ ' + data[i].likesCount;
+
+    postInfo.appendChild(postComments);
+    postComments.textContent = '💬' + '12';
+
+    singlePost.appendChild(postInfo);
+    singlePost.appendChild(postNewestComment);
+    postNewestComment.textContent = data[i].creator + ' - ' + data[i].date + ' - ' + data[i].title;
+
+    instaFeed.appendChild(singlePost);
+
+    postCreator.addEventListener('click', event => {
+      console.log('Post creator: ' + data[i].creator);
+    });
+    postImage.addEventListener('click', event => {
+      document.querySelector('#test').appendChild(openPhoto(data[i]));
+    });
+    postLikes.addEventListener('click', event => {
+      console.log('Like skaicius ' + data[i].likesCount);
+    });
+    postComments.addEventListener('click', event => {
+      console.log('kolkas negaunu duomenu susijusiu su komentarais');
+    });
+  }
+}
+
 function openPhoto(post) {
+  console.log(post);
   let modal = document.createElement('div');
   modal.classList.add('modal');
   modal.tabIndex = '-1';
@@ -50,47 +105,88 @@ function openPhoto(post) {
   modalTitle.textContent = post.title;
 
   let image = document.createElement('img');
-  image.src = post.src;
+  image.src = post.photo;
   image.classList.add('big-picture');
 
   let modalBody = document.createElement('div');
   modalBody.classList.add('modal-body');
 
   let likes = document.createElement('div');
-  likes.setAttribute('style', 'padding-right: 322px; margin-bottom: 20px;');
-  likes.textContent = `${post.likes} People Likes That`;
+  likes.addEventListener('click', setLikesCount => {
+    likes.innerHTML = ' ';
+    fetch(`http://localhost:3000/api/setLikesCount/${post._id}`, {
+      method: 'PUT',
+      headers: {
+        'x-auth': window.localStorage.getItem('website-x-auth-token'),
+      },
+    })
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        likes.textContent = '♥️ ' + data.likesCount;
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  });
+
+  likes.setAttribute('style', 'padding-right:433 px; margin-bottom: 20px;');
+  if (post.likesCount != null) {
+    likes.textContent = `♥️ ${post.likesCount}`;
+  } else {
+    likes.textContent = `♥️ 0`;
+  }
 
   modalHeader.appendChild(modalTitle);
   modalBody.appendChild(image);
   modalBody.appendChild(likes);
-  modalBody.appendChild(renderComments(post.comments));
+  modalBody.appendChild(renderComments(post));
 
   modalContent.appendChild(modalHeader);
   modalContent.appendChild(modalBody);
   modalDialog.appendChild(modalContent);
   modal.appendChild(modalDialog);
+
   return modal;
 }
 
-function renderComments(arrayOfObjects) {
+function renderComments(data) {
+  console.log(data);
   let commentsList = document.createElement('div');
-  commentsList.setAttribute('style', 'display:flex; flex-direction: column;');
-  arrayOfObjects.forEach(object => {
-    let comment = document.createElement('div');
-    comment.setAttribute('style', 'display:flex; flex-direction: row;');
+  fetch(`http://localhost:3000/api/getPostCommentsById/${data._id}`, {
+    method: 'GET',
+    headers: {
+      'x-auth': window.localStorage.getItem('website-x-auth-token'),
+    },
+  })
+    .then(res => {
+      return res.json();
+    })
+    .then(arrayOfObjects => {
+      console.log(arrayOfObjects);
+      commentsList.setAttribute('style', 'display:flex; flex-direction: column;');
+      arrayOfObjects.forEach(object => {
+        let comment = document.createElement('div');
+        comment.setAttribute('style', 'display:flex; flex-direction: row;');
 
-    let commentText = document.createElement('p');
-    commentText.setAttribute('style', 'margin-left: 10px; text-align: justify;');
-    commentText.textContent = object.text;
+        let commentText = document.createElement('p');
+        commentText.setAttribute('style', 'margin-left: 10px; text-align: justify;');
+        commentText.textContent = object.text;
 
-    let commentCreator = document.createElement('a');
-    commentCreator.href = object.creator;
-    commentCreator.innerHTML = object.creator;
+        let commentCreator = document.createElement('a');
+        commentCreator.href = object.creator;
+        commentCreator.innerHTML = object.creator;
 
-    comment.appendChild(commentCreator);
-    comment.appendChild(commentText);
-    commentsList.appendChild(comment);
-  });
+        comment.appendChild(commentCreator);
+        comment.appendChild(commentText);
+        commentsList.appendChild(comment);
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+
   return commentsList;
 }
 // Get the modal

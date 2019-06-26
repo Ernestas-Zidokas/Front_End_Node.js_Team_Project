@@ -19,7 +19,10 @@ let upload = multer({ storage: storage });
 router.route('/register').post(userController.register);
 router.route('/login').post(userController.login);
 router.route('/createComments').post(middleware.authenticate, commentController.createComments);
+router.route('/getPostByCreator').post(middleware.authenticate, postController.getPostByCreator);
+router.route('/getLastTenPosts').get(postController.getLastTenPosts);      
 router.route('/getPostCommentsById/:id').get(middleware.authenticate, commentController.getPostCommentsById);
+router.route('/getUser/:id').get(middleware.authenticate, userController.getUser);
 
 router
   .route('/createPost')

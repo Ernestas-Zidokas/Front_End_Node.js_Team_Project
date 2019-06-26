@@ -15,12 +15,13 @@ let PostSchema = new mongoose.Schema({
   },
   date: {
     type: Date,
-    default: new Date(),
+    default: () => {return new Date()},
   },
   likesCount: {
     type: Number,
     default: 0,
   },
+  creator: { type: mongoose.Schema.Types.ObjectId, ref: 'Users' }
 });
 
 let postModel = mongoose.model('Posts', PostSchema);

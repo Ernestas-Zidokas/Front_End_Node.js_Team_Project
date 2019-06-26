@@ -1,3 +1,91 @@
+window.addEventListener('load', () => {
+  fetch('http://localhost:3000/api/getLastTenPosts', {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }
+  }).then(res => {
+    return res.json()
+  })
+  .then(data => {
+    console.log(data)
+    createInstaFeed(data)
+    return data
+
+  })
+  .catch((err) => {
+    console.log(err)
+  })
+});
+
+
+
+  function createInstaFeed(data) {
+    let instaFeed = document.getElementById("post")
+    instaFeed.innerHTML = ""
+    //let image = document.getElementById("image")
+    //singlePost.innerHTML = "hhhhhhhhhhhhhhhh"
+    for (let i = 0; i < data.length; i++) {
+      let singlePost = document.createElement("p")
+      let postHeader = document.createElement("h4")
+      let postCreator = document.createElement("span")
+      let postTitle = document.createElement("span")
+      let postImage = document.createElement("img")
+      let postInfo = document.createElement("div")
+      let postLikes = document.createElement("span")
+      let postComments = document.createElement("span")
+      let line = document.createElement("div")
+      line.className = "line"
+
+    
+
+      singlePost.className = "singlePost"
+      postHeader.className = "postHeader"
+      postImage.className = "postImage"
+      postCreator.className = "postCreator"
+      postTitle.className = "postTitle"
+      postInfo.className = "postInfo"
+      postLikes.className = "likesAndComments"
+      postComments.className = "likesAndComments"
+
+      postCreator.textContent = data[i].creator.name     
+      postTitle.textContent = data[i].title
+      postImage.src = data[i].photo
+
+      postHeader.appendChild(postCreator)
+      postHeader.appendChild(postTitle)
+
+      singlePost.appendChild(postHeader)
+      singlePost.appendChild(postImage)
+
+      postInfo.appendChild(postLikes)
+      postLikes.textContent = "♥️ " + data[i].likesCount
+
+      postInfo.appendChild(postComments)
+      postComments.textContent = "💬" +  "12"
+
+      singlePost.appendChild(postInfo)
+
+      instaFeed.appendChild(singlePost)
+
+      instaFeed.appendChild(line)
+
+      postCreator.addEventListener("click", event => {
+        console.log("Post creator: " + data[i].creator)
+      })
+      postImage.addEventListener("click", event => {
+        console.log("Post title: " + data[i].title)
+      })
+      postLikes.addEventListener("click", event => {
+        console.log("Like skaicius " + data[i].likesCount)
+      })
+      postComments.addEventListener("click", event => {
+        console.log("kolkas negaunu duomenu susijusiu su komentarais")
+      })
+    }
+  }
+
 let openPost = document.getElementById('post');
 openPost.addEventListener('click', event => {
   console.log('openPost');
@@ -95,10 +183,12 @@ document.querySelector('#createPost').addEventListener('click', () => {
     .then(res => {
       return res.json();
     })
-    .then(data => {
-      console.log(data);
+    .then(item => {
+      console.log(item);
+      location.reload();
     })
     .catch(err => {
       console.log(err);
     });
 });
+

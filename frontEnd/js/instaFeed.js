@@ -37,16 +37,20 @@ fetch('http://localhost:3000/api/getLastTenPosts', {
       let postInfo = document.createElement("div")
       let postLikes = document.createElement("span")
       let postComments = document.createElement("span")
-      let postNewestComment = document.createElement("div")
+      let line = document.createElement("div")
+      line.className = "line"
+
+     // let postNewestComment = document.createElement("div")
 
       singlePost.className = "singlePost"
       postHeader.className = "postHeader"
+      postImage.className = "postImage"
       postCreator.className = "postCreator"
       postTitle.className = "postTitle"
       postInfo.className = "postInfo"
       postLikes.className = "likesAndComments"
       postComments.className = "likesAndComments"
-      postNewestComment.className = "postNewestComment"
+      //postNewestComment.className = "postNewestComment"
 
       postCreator.textContent = data[i].creator
       postTitle.textContent = data[i].title
@@ -65,10 +69,12 @@ fetch('http://localhost:3000/api/getLastTenPosts', {
       postComments.textContent = "💬" +  "12"
 
       singlePost.appendChild(postInfo)
-      singlePost.appendChild(postNewestComment)
-      postNewestComment.textContent = data[i].creator + " - " + data[i].date + " - " + data[i].title
+      //singlePost.appendChild(postNewestComment)
+      //postNewestComment.textContent = data[i].creator + " - " + data[i].date + " - " + data[i].title
 
       instaFeed.appendChild(singlePost)
+
+      instaFeed.appendChild(line)
 
       postCreator.addEventListener("click", event => {
         console.log("Post creator: " + data[i].creator)

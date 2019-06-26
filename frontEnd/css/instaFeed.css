@@ -19,12 +19,23 @@ background: #fafafa;
 
 
 .container{
+	display: -webkit-box;
+	display: -ms-flexbox;
 	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	justify-content: center;
-	align-items: stretch;
-	align-content: stretch;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	    -ms-flex-direction: row;
+	        flex-direction: row;
+	-ms-flex-wrap: wrap;
+	    flex-wrap: wrap;
+	-webkit-box-pack: center;
+	    -ms-flex-pack: center;
+	        justify-content: center;
+	-webkit-box-align: stretch;
+	    -ms-flex-align: stretch;
+	        align-items: stretch;
+	-ms-flex-line-pack: stretch;
+	    align-content: stretch;
     margin-top: 50px
 }
 
@@ -47,7 +58,7 @@ background: #fafafa;
     box-shadow: 1px 12px 21px -2px rgba(192,192,192,0.81);
     background:white;
     width: 1014px;
-    height: 800px;
+    height: auto;                                                              /*buvo 800px */
     padding-right: 0px;
 
 
@@ -69,4 +80,30 @@ background: none;
 
 .feed {
 
+}
+
+/* nuo cia mano css bus */
+.singlePost {
+  border-bottom: 2px solid lightgrey;
+}
+.postHeader {
+  color: red;
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+.postCreator {
+  padding-right: 20px;
+}
+.postImage {
+
+}
+.likesAndComments {
+  padding-right: 20px;
+}
+.postInfo {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.postNewestComment {
+  padding-bottom: 20px;
 }

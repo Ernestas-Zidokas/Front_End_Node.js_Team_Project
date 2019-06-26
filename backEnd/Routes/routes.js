@@ -9,7 +9,7 @@ router.route('/login').post(userController.login);
 router.route('/createComments').post(middleware.authenticate, commentController.createComments);
 router.route('/createPost').post(middleware.authenticate, postController.createPost);
 router.route('/getPostByCreator').post(middleware.authenticate, postController.getPostByCreator);
-router.route('/getLastTenPosts').get(middleware.authenticate, postController.getLastTenPosts)
+router.route('/getLastTenPosts').get(postController.getLastTenPosts);      
 router.route('/getPostByCreator/:id').get(middleware.authenticate, postController.getPostByCreator);
 router.route('/setLikesCount/:id').put(middleware.authenticate, postController.setLikesCount);
 router

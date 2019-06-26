@@ -63,17 +63,18 @@ let getLikesCountByPostId = (request, response) => {
 
 
 let getLastTenPosts =  (request, response) => {
-  let postDate = request.param('')
-  PostModel.find({
-    creator: request.user._id,
-  })
-  .then(item => {
-    response.json(item);
+  PostModel.
+  find().
+  limit(10).
+  sort({ date: -1 })
+  .then(items => {
+    response.json(items);
   })
   .catch(error => {
     response.status(400).json(error);
   });
 };
+
 
 
 module.exports = {

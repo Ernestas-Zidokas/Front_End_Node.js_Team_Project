@@ -69,10 +69,3 @@ function showError(txt) {
   span.textContent = txt;
   output.appendChild(span);
 }
-
-
-//cia istrinti neuzmirsti
-let tra = new Date();
-console.log(tra);
-let since = Date.parse(new Date());
-console.log(since);

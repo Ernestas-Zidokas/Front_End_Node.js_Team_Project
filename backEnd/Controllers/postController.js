@@ -2,15 +2,12 @@ let PostModel = require('../Models/postModel');
 
 let createPost = (request, response) => {
   let data = request.body;
-  console.log(request.file);
-
   let file = 'http://localhost:3000/' + request.file.path;
   let post = new PostModel();
   post.title = data.title;
   post.creator = request.user._id;
   post.photo = file;
   post.likesCount = data.likesCount;
-
   post
     .save()
     .then(item => {

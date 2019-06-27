@@ -145,7 +145,6 @@ function createInstaFeed(data) {
 }
 
 function openPhoto(post) {
-  console.log(post);
   let modal = document.createElement('div');
   modal.classList.add('modal');
   modal.tabIndex = '-1';
@@ -208,12 +207,10 @@ function openPhoto(post) {
   modalContent.appendChild(modalBody);
   modalDialog.appendChild(modalContent);
   modal.appendChild(modalDialog);
-  console.log(modal);
   return modal;
 }
 
 function renderComments(data) {
-  console.log(data);
   let commentsList = document.createElement('div');
   fetch(`http://localhost:3000/api/getPostCommentsById/${data._id}`, {
     method: 'GET',
@@ -225,7 +222,6 @@ function renderComments(data) {
       return res.json();
     })
     .then(arrayOfObjects => {
-      console.log(arrayOfObjects);
       commentsList.setAttribute('style', 'display:flex; flex-direction: column;');
       arrayOfObjects.forEach(object => {
         let comment = document.createElement('div');
@@ -250,26 +246,16 @@ function renderComments(data) {
 
   return commentsList;
 }
-// Get the modal
+
 let modal = document.getElementById('myModal');
-
-// Get the button that opens the modal
 let btn = document.getElementById('addPost');
-
-// Get the <span> element that closes the modal
 let span = document.getElementsByClassName('close')[0];
-
-// When the user clicks the button, open the modal
 btn.onclick = function() {
   modal.style.display = 'block';
 };
-
-// When the user clicks on <span> (x), close the modal
 span.onclick = function() {
   modal.style.display = 'none';
 };
-
-// When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
   if (event.target == modal) {
     modal.style.display = 'none';

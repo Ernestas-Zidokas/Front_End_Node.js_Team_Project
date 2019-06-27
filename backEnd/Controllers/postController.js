@@ -108,6 +108,7 @@ let getLastTenPosts = (request, response) => {
     {
       photo: 1,
       likesCount: 1,
+      title: 1,
       isLiked: {
         $elemMatch: { $eq: request.user._id },
       },

@@ -34,17 +34,58 @@ let getPostByCreator = (request, response) => {
 
 let setLikesCount = (request, response) => {
   let id = request.params.id;
-  PostModel.findOne({
-    _id: id,
-    creator: request.user._id,
-  })
-    .then(item => {
-      item.likesCount++;
-      item.save().then(savedItem => response.json(savedItem));
-    })
-    .catch(e => {
-      response.status(400).json(e);
-    });
+  PostModel.find(
+    {
+      _id: id,
+    },
+    {
+      photo: 1,
+      likeCount: 1,
+      isLiked: {
+        $elemMatch: { $eq: request.user._id },
+      },
+    },
+  ).then(items => {
+    console.log(items);
+    if (items[0].isLiked.length == 0) {
+      console.log('nera laiku');
+      PostModel.update(
+        {
+          _id: id,
+          isLiked: { $ne: request.user._id },
+        },
+        {
+          $inc: { likesCount: 1 },
+          $push: { isLiked: request.user._id },
+        },
+      )
+        .then(item => {
+          response.json(item);
+        })
+        .catch(e => {
+          response.status(400).json(e);
+        });
+    } else {
+      console.log('yra laiku');
+      PostModel.update(
+        {
+          _id: id,
+          isLiked: request.user._id,
+        },
+        {
+          $inc: { likesCount: -1 },
+          $pull: { isLiked: request.user._id },
+        },
+      )
+        .then(item => {
+          console.log(item);
+          response.json(item);
+        })
+        .catch(e => {
+          response.status(400).json(e);
+        });
+    }
+  });
 };
 
 let getLikesCountByPostId = (request, response) => {
@@ -62,7 +103,16 @@ let getLikesCountByPostId = (request, response) => {
 };
 
 let getLastTenPosts = (request, response) => {
-  PostModel.find()
+  PostModel.find(
+    {},
+    {
+      photo: 1,
+      likesCount: 1,
+      isLiked: {
+        $elemMatch: { $eq: request.user._id },
+      },
+    },
+  )
     .populate('creator')
     .limit(10)
     .sort({ date: -1 })

@@ -120,6 +120,7 @@ body {
 .postCreator {
   padding-right: 20px;
   margin-bottom: 5px;
+  font-size: 15px;
 }
 
 .postImage {
@@ -147,7 +148,7 @@ body {
   justify-content: right;
   align-items: stretch;
   align-content: stretch;
-  font-size: 15px;
+  font-size: 25px;
   font-style: italic;
 }
 

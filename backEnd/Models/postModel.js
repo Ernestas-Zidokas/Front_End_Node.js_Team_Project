@@ -24,7 +24,6 @@ let PostSchema = new mongoose.Schema({
     default: 0,
   },
   isLiked: [],
-
   creator: { type: mongoose.Schema.Types.ObjectId, ref: 'Users' },
 });
 

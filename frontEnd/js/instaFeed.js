@@ -4,6 +4,7 @@ window.addEventListener('load', () => {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
+      'x-auth': window.localStorage.getItem('website-x-auth-token'),
     },
   })
     .then(res => {

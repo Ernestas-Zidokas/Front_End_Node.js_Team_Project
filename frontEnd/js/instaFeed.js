@@ -146,6 +146,7 @@ function createInstaFeed(data) {
 }
 
 function openPhoto(post) {
+  console.log(post);
   let modal = document.createElement('div');
   modal.classList.add('modal');
   modal.tabIndex = '-1';
@@ -185,7 +186,8 @@ function openPhoto(post) {
         return res.json();
       })
       .then(data => {
-        likes.textContent = '♥️ ' + data.likesCount;
+        likes.textContent = '♥️ ' + (post.likesCount + data);
+        console.log(data);
       })
       .catch(err => {
         console.log(err);
@@ -193,6 +195,7 @@ function openPhoto(post) {
   });
 
   likes.setAttribute('style', 'padding-right:433 px; margin-bottom: 20px;');
+  console.log(post.likesCount);
   if (post.likesCount != null) {
     likes.textContent = `♥️ ${post.likesCount}`;
   } else {

@@ -60,7 +60,7 @@ let setLikesCount = (request, response) => {
         },
       )
         .then(item => {
-          response.json(item);
+          response.json(1);
         })
         .catch(e => {
           response.status(400).json(e);
@@ -79,7 +79,7 @@ let setLikesCount = (request, response) => {
       )
         .then(item => {
           console.log(item);
-          response.json(item);
+          response.json(-1);
         })
         .catch(e => {
           response.status(400).json(e);

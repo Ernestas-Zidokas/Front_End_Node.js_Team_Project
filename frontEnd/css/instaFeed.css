@@ -124,8 +124,8 @@ body {
 }
 
 .postImage {
-  width: 614px;
-  height: 767px;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .likesAndComments {

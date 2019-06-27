@@ -4,6 +4,7 @@ window.addEventListener('load', () => {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
+      'x-auth': window.localStorage.getItem('website-x-auth-token'),
     },
   })
     .then(res => {
@@ -125,7 +126,8 @@ function openPhoto(post) {
         return res.json();
       })
       .then(data => {
-        likes.textContent = '♥️ ' + data.likesCount;
+        likes.textContent = '♥️ ' + (post.likesCount + data);
+        console.log(data);
       })
       .catch(err => {
         console.log(err);
@@ -133,6 +135,7 @@ function openPhoto(post) {
   });
 
   likes.setAttribute('style', 'padding-right:433 px; margin-bottom: 20px;');
+  console.log(post.likesCount);
   if (post.likesCount != null) {
     likes.textContent = `♥️ ${post.likesCount}`;
   } else {
@@ -175,7 +178,7 @@ function openPhoto(post) {
       return res.json();
     })
     .then(item => {
-      renderComments(data);                             
+                                
     })
     .catch(err => {
       console.log(err);

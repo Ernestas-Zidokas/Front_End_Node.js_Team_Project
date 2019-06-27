@@ -4,6 +4,7 @@ window.addEventListener('load', () => {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
+      'x-auth': window.localStorage.getItem('website-x-auth-token'),
     },
   })
     .then(res => {
@@ -19,67 +20,6 @@ window.addEventListener('load', () => {
     });
 });
 
-function createInstaFeed(data) {
-  let instaFeed = document.getElementById('post');
-  instaFeed.innerHTML = '';
-  for (let i = 0; i < data.length; i++) {
-    let singlePost = document.createElement('p');
-    let postHeader = document.createElement('h4');
-    let postCreator = document.createElement('span');
-    let postTitle = document.createElement('span');
-    let postImage = document.createElement('img');
-    let postInfo = document.createElement('div');
-    let postLikes = document.createElement('span');
-    let postComments = document.createElement('span');
-    let postNewestComment = document.createElement('div');
-
-    singlePost.className = 'singlePost';
-    postHeader.className = 'postHeader';
-    postCreator.className = 'postCreator';
-    postTitle.className = 'postTitle';
-    postInfo.className = 'postInfo';
-    postLikes.className = 'likesAndComments';
-    postComments.className = 'likesAndComments';
-    postNewestComment.className = 'postNewestComment';
-
-    postCreator.textContent = data[i].creator;
-    postTitle.textContent = data[i].title;
-    postImage.src = data[i].photo;
-    postImage.dataset.toggle = 'modal';
-    postImage.dataset.target = '#exampleModal';
-
-    postHeader.appendChild(postCreator);
-    postHeader.appendChild(postTitle);
-
-    singlePost.appendChild(postHeader);
-    singlePost.appendChild(postImage);
-
-    postInfo.appendChild(postLikes);
-    postLikes.textContent = '♥️ ' + data[i].likesCount;
-
-    postInfo.appendChild(postComments);
-    postComments.textContent = '💬' + '12';
-
-    singlePost.appendChild(postInfo);
-    singlePost.appendChild(postNewestComment);
-    postNewestComment.textContent = data[i].creator + ' - ' + data[i].date + ' - ' + data[i].title;
-
-    instaFeed.appendChild(singlePost);
-
-    postCreator.addEventListener('click', event => {
-      console.log('Post creator: ' + data[i].creator);
-    });
-    postImage.addEventListener('click', event => {
-      document.querySelector('#test').appendChild(openPhoto(data[i]));
-    });
-    postLikes.addEventListener('click', event => {
-      console.log('Like skaicius ' + data[i].likesCount);
-    });
-    postComments.addEventListener('click', event => {
-      console.log('kolkas negaunu duomenu susijusiu su komentarais');
-    });
-  }
-}
 
 function createInstaFeed(data) {
   let instaFeed = document.getElementById('post');
@@ -87,8 +27,8 @@ function createInstaFeed(data) {
   for (let i = 0; i < data.length; i++) {
     let singlePost = document.createElement('p');
     let postHeader = document.createElement('h4');
-    let postCreator = document.createElement('span');
     let postTitle = document.createElement('span');
+    let postCreator = document.createElement('span');
     let postImage = document.createElement('img');
     let postInfo = document.createElement('div');
     let postLikes = document.createElement('span');
@@ -99,20 +39,20 @@ function createInstaFeed(data) {
     singlePost.className = 'singlePost';
     postHeader.className = 'postHeader';
     postImage.className = 'postImage';
-    postCreator.className = 'postCreator';
     postTitle.className = 'postTitle';
+    postCreator.className = 'postCreator';
     postInfo.className = 'postInfo';
     postLikes.className = 'likesAndComments';
     postComments.className = 'likesAndComments';
 
-    postCreator.textContent = data[i].creator.name;
     postTitle.textContent = data[i].title;
+    postCreator.textContent = data[i].creator.name;
     postImage.src = data[i].photo;
     postImage.dataset.target = '#exampleModal';
     postImage.dataset.toggle = 'modal';
 
-    postHeader.appendChild(postCreator);
     postHeader.appendChild(postTitle);
+    postHeader.appendChild(postCreator);
 
     singlePost.appendChild(postHeader);
     singlePost.appendChild(postImage);
@@ -145,6 +85,7 @@ function createInstaFeed(data) {
 }
 
 function openPhoto(post) {
+  document.querySelector('#test').innerHTML = '';
   let modal = document.createElement('div');
   modal.classList.add('modal');
   modal.tabIndex = '-1';
@@ -165,6 +106,7 @@ function openPhoto(post) {
   modalTitle.textContent = post.title;
 
   let image = document.createElement('img');
+  console.log(post.photo);
   image.src = post.photo;
   image.classList.add('big-picture');
 
@@ -184,7 +126,8 @@ function openPhoto(post) {
         return res.json();
       })
       .then(data => {
-        likes.textContent = '♥️ ' + data.likesCount;
+        likes.textContent = '♥️ ' + (post.likesCount + data);
+        console.log(data);
       })
       .catch(err => {
         console.log(err);
@@ -192,6 +135,7 @@ function openPhoto(post) {
   });
 
   likes.setAttribute('style', 'padding-right:433 px; margin-bottom: 20px;');
+  console.log(post.likesCount);
   if (post.likesCount != null) {
     likes.textContent = `♥️ ${post.likesCount}`;
   } else {
@@ -206,6 +150,45 @@ function openPhoto(post) {
   modalContent.appendChild(modalHeader);
   modalContent.appendChild(modalBody);
   modalDialog.appendChild(modalContent);
+
+  //Creating comment input zygis arnas
+  let modalCommentInput = document.createElement("div");
+  let modalInput = document.createElement("input");
+  let modalButton = document.createElement("button");
+  modalButton.innerHTML = "Post";
+  modalInput.className = "modalInput";
+  modalInput.placeholder = "Add a comment...";
+  modalButton.className = "modalButton";
+  modalCommentInput.appendChild(modalInput);
+  modalCommentInput.appendChild(modalButton);
+  modalButton.addEventListener("click", event => {
+    fetch('http://localhost:3000/api/createComments', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'x-auth': window.localStorage.getItem('website-x-auth-token'),
+    },
+    body: JSON.stringify({
+      text: modalInput.value,
+      postID: post._id,
+    }),
+  })
+    .then(res => {
+      return res.json();
+    })
+    .then(item => {
+                                
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+  modalBody.appendChild(modalCommentInput);
+
+
+
+
   modal.appendChild(modalDialog);
   return modal;
 }
@@ -233,7 +216,7 @@ function renderComments(data) {
 
         let commentCreator = document.createElement('a');
         commentCreator.href = object.creator;
-        commentCreator.innerHTML = object.creator;
+        commentCreator.textContent = data.creator.name            
 
         comment.appendChild(commentCreator);
         comment.appendChild(commentText);
@@ -288,3 +271,4 @@ document.querySelector('#createPost').addEventListener('click', () => {
       console.log(err);
     });
 });
+

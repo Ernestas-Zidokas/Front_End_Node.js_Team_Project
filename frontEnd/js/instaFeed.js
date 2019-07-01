@@ -11,7 +11,6 @@ window.addEventListener('load', () => {
       return res.json();
     })
     .then(data => {
-      console.log(data);
       createInstaFeed(data);
       return data;
     })
@@ -22,6 +21,7 @@ window.addEventListener('load', () => {
 
 
 function createInstaFeed(data) {
+  console.log(data)
   let instaFeed = document.getElementById('post');
   instaFeed.innerHTML = '';
   for (let i = 0; i < data.length; i++) {
@@ -61,7 +61,9 @@ function createInstaFeed(data) {
     postLikes.textContent = '♥️ ' + data[i].likesCount;
 
     postInfo.appendChild(postComments);
-    postComments.textContent = '💬' + '12';
+    postComments.textContent = '💬 ' + data[i].commentCount;
+    postComments.dataset.target = '#exampleModal';
+    postComments.dataset.toggle = 'modal';
 
     singlePost.appendChild(postInfo);
 
@@ -79,7 +81,7 @@ function createInstaFeed(data) {
       console.log('Like skaicius ' + data[i].likesCount);
     });
     postComments.addEventListener('click', event => {
-      console.log('kolkas negaunu duomenu susijusiu su komentarais');
+      document.querySelector('#test').appendChild(openPhoto(data[i]));
     });
   }
 }
@@ -91,6 +93,16 @@ function openPhoto(post) {
   modal.tabIndex = '-1';
   modal.role = 'dialog';
   modal.id = 'exampleModal';
+
+  //kuriu listener modalo uzdarymui
+  let bandymui = document.getElementById("test")
+  let tevinis = document.getElementById("exampleModal")
+  bandymui.addEventListener("click", event => {
+    if (event.target.id === "exampleModal") {
+      location.reload();
+    } 
+  })
+
 
   let modalDialog = document.createElement('div');
   modalDialog.classList.add('modal-dialog');
@@ -106,7 +118,6 @@ function openPhoto(post) {
   modalTitle.textContent = post.title;
 
   let image = document.createElement('img');
-  console.log(post.photo);
   image.src = post.photo;
   image.classList.add('big-picture');
 
@@ -177,24 +188,42 @@ function openPhoto(post) {
     .then(res => {
       return res.json();
     })
-    .then(item => {
-                                
+    .then(item => {       
     })
     .catch(err => {
       console.log(err);
     });
 });
+//event listener for quick post hack
+  modalButton.addEventListener("click", event => {
+    if (modalInput.value !== "") {
+      let divForPostHack = document.createElement("div");
+  divForPostHack.setAttribute('style', 'display:flex; flex-direction: row;');
+  let aForPostHack = document.createElement("a");
+  aForPostHack.href = post.creator;
+  let pForPostHack = document.createElement("p");
+  pForPostHack.setAttribute('style', 'margin-left: 10px; text-align: justify;');
+  aForPostHack.textContent = post.creator.name;                             
+  pForPostHack.textContent = modalInput.value;
+  divForPostHack.appendChild(aForPostHack);
+  divForPostHack.appendChild(pForPostHack);
+  let mainDivForHack = document.getElementById("commentsList")
+  mainDivForHack.appendChild(divForPostHack);
+  modalInput.value = "";
+    }
+  
+  })
+
+
   modalBody.appendChild(modalCommentInput);
-
-
-
-
   modal.appendChild(modalDialog);
   return modal;
 }
 
+
 function renderComments(data) {
   let commentsList = document.createElement('div');
+  commentsList.id = "commentsList"
   fetch(`http://localhost:3000/api/getPostCommentsById/${data._id}`, {
     method: 'GET',
     headers: {
@@ -223,6 +252,7 @@ function renderComments(data) {
         commentsList.appendChild(comment);
       });
     })
+    
     .catch(err => {
       console.log(err);
     });

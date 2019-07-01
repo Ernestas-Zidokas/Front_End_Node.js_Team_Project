@@ -23,6 +23,10 @@ let PostSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  commentCount: {
+    type: Number,
+    default: 0,
+  },
   isLiked: [],
   creator: { type: mongoose.Schema.Types.ObjectId, ref: 'Users' },
 });

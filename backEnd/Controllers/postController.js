@@ -45,9 +45,7 @@ let setLikesCount = (request, response) => {
       },
     },
   ).then(items => {
-    console.log(items);
     if (items[0].isLiked.length == 0) {
-      console.log('nera laiku');
       PostModel.update(
         {
           _id: id,
@@ -65,7 +63,6 @@ let setLikesCount = (request, response) => {
           response.status(400).json(e);
         });
     } else {
-      console.log('yra laiku');
       PostModel.update(
         {
           _id: id,
@@ -78,7 +75,7 @@ let setLikesCount = (request, response) => {
       )
         .then(item => {
           console.log(item);
-          response.json(-1);
+          response.json(0);
         })
         .catch(e => {
           response.status(400).json(e);
@@ -91,7 +88,7 @@ let getLikesCountByPostId = (request, response) => {
   let id = request.param('id');
   PostModel.findOne({
     _id: id,
-    creator: request.user._id,
+    // creator: request.user._id,
   })
     .then(item => {
       response.json(item.likesCount);
@@ -107,6 +104,7 @@ let getLastTenPosts = (request, response) => {
     {
       photo: 1,
       likesCount: 1,
+      commentCount: 1,
       title: 1,
       isLiked: {
         $elemMatch: { $eq: request.user._id },

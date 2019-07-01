@@ -11,7 +11,6 @@ window.addEventListener('load', () => {
       return res.json();
     })
     .then(data => {
-      console.log(data);
       createInstaFeed(data);
       return data;
     })
@@ -21,6 +20,7 @@ window.addEventListener('load', () => {
 });
 
 function createInstaFeed(data) {
+  console.log(data)
   let instaFeed = document.getElementById('post');
   instaFeed.innerHTML = '';
   for (let i = 0; i < data.length; i++) {
@@ -55,12 +55,19 @@ function createInstaFeed(data) {
 
     singlePost.appendChild(postHeader);
     singlePost.appendChild(postImage);
+    console.log(data[i].isLiked);
+    if (data[i].isLiked.length > 0) {
+      postLikes.textContent = `❤️ ${data[i].likesCount}`;
+    } else {
+      postLikes.textContent = `♥️  ${data[i].likesCount}`;
+    }
 
     postInfo.appendChild(postLikes);
-    postLikes.textContent = '♥️ ' + data[i].likesCount;
 
     postInfo.appendChild(postComments);
-    postComments.textContent = '💬' + '12';
+    postComments.textContent = '💬 ' + data[i].commentCount;
+    postComments.dataset.target = '#exampleModal';
+    postComments.dataset.toggle = 'modal';
 
     singlePost.appendChild(postInfo);
 
@@ -76,10 +83,10 @@ function createInstaFeed(data) {
       document.querySelector('#test').appendChild(openPhoto(data[i]));
     });
     postLikes.addEventListener('click', event => {
-      console.log('Like skaicius ' + data[i].likesCount);
+      likeButton(postLikes, data[i]._id);
     });
     postComments.addEventListener('click', event => {
-      console.log('kolkas negaunu duomenu susijusiu su komentarais');
+      document.querySelector('#test').appendChild(openPhoto(data[i]));
     });
   }
 }
@@ -91,6 +98,16 @@ function openPhoto(post) {
   modal.tabIndex = '-1';
   modal.role = 'dialog';
   modal.id = 'exampleModal';
+
+  //kuriu listener modalo uzdarymui
+  let bandymui = document.getElementById("test")
+  let tevinis = document.getElementById("exampleModal")
+  bandymui.addEventListener("click", event => {
+    if (event.target.id === "exampleModal") {
+      location.reload();
+    } 
+  })
+
 
   let modalDialog = document.createElement('div');
   modalDialog.classList.add('modal-dialog');
@@ -106,7 +123,6 @@ function openPhoto(post) {
   modalTitle.textContent = post.title;
 
   let image = document.createElement('img');
-  console.log(post.photo);
   image.src = post.photo;
   image.classList.add('big-picture');
 
@@ -114,32 +130,16 @@ function openPhoto(post) {
   modalBody.classList.add('modal-body');
 
   let likes = document.createElement('div');
-  likes.addEventListener('click', setLikesCount => {
-    likes.innerHTML = ' ';
-    fetch(`http://localhost:3000/api/setLikesCount/${post._id}`, {
-      method: 'PUT',
-      headers: {
-        'x-auth': window.localStorage.getItem('website-x-auth-token'),
-      },
-    })
-      .then(res => {
-        return res.json();
-      })
-      .then(data => {
-        likes.textContent = '♥️ ' + (post.likesCount + data);
-        console.log(data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+  likes.addEventListener('click', event => {
+    likeButton(likes, post._id);
   });
 
   likes.setAttribute('style', 'padding-right:433 px; margin-bottom: 20px;');
-  console.log(post.likesCount);
-  if (post.likesCount != null) {
-    likes.textContent = `♥️ ${post.likesCount}`;
+  console.log(post);
+  if (post.isLiked.length > 0) {
+    likes.textContent = `❤️ ${post.likesCount}`;
   } else {
-    likes.textContent = `♥️ 0`;
+    likes.textContent = `♥️  ${post.likesCount}`;
   }
 
   modalHeader.appendChild(modalTitle);
@@ -163,33 +163,56 @@ function openPhoto(post) {
   modalCommentInput.appendChild(modalButton);
   modalButton.addEventListener('click', event => {
     fetch('http://localhost:3000/api/createComments', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'x-auth': window.localStorage.getItem('website-x-auth-token'),
-      },
-      body: JSON.stringify({
-        text: modalInput.value,
-        postID: post._id,
-      }),
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'x-auth': window.localStorage.getItem('website-x-auth-token'),
+    },
+    body: JSON.stringify({
+      text: modalInput.value,
+      postID: post._id,
+    }),
+  })
+    .then(res => {
+      return res.json();
     })
-      .then(res => {
-        return res.json();
-      })
-      .then(item => {})
-      .catch(err => {
-        console.log(err);
-      });
-  });
-  modalBody.appendChild(modalCommentInput);
+    .then(item => {       
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+//event listener for quick post hack
+  modalButton.addEventListener("click", event => {
+    if (modalInput.value !== "") {
+      let divForPostHack = document.createElement("div");
+  divForPostHack.setAttribute('style', 'display:flex; flex-direction: row;');
+  let aForPostHack = document.createElement("a");
+  aForPostHack.href = post.creator;
+  let pForPostHack = document.createElement("p");
+  pForPostHack.setAttribute('style', 'margin-left: 10px; text-align: justify;');
+  aForPostHack.textContent = post.creator.name;                             
+  pForPostHack.textContent = modalInput.value;
+  divForPostHack.appendChild(aForPostHack);
+  divForPostHack.appendChild(pForPostHack);
+  let mainDivForHack = document.getElementById("commentsList")
+  mainDivForHack.appendChild(divForPostHack);
+  modalInput.value = "";
+    }
+  
+  })
 
+
+  modalBody.appendChild(modalCommentInput);
   modal.appendChild(modalDialog);
   return modal;
 }
 
+
 function renderComments(data) {
   let commentsList = document.createElement('div');
+  commentsList.id = "commentsList"
   fetch(`http://localhost:3000/api/getPostCommentsById/${data._id}`, {
     method: 'GET',
     headers: {
@@ -218,6 +241,7 @@ function renderComments(data) {
         commentsList.appendChild(comment);
       });
     })
+    
     .catch(err => {
       console.log(err);
     });
@@ -266,3 +290,41 @@ document.querySelector('#createPost').addEventListener('click', () => {
       console.log(err);
     });
 });
+
+function likeButton(likeButton, postId) {
+  likeButton.innerHTML = ' ';
+  fetch(`http://localhost:3000/api/setLikesCount/${postId}`, {
+    method: 'PUT',
+    headers: {
+      'x-auth': window.localStorage.getItem('website-x-auth-token'),
+    },
+  })
+    .then(res => {
+      return res.json();
+    })
+    .then(response => {
+      fetch(`http://localhost:3000/api/getLikesCountByPostId/${postId}`, {
+        method: 'GET',
+        headers: {
+          'x-auth': window.localStorage.getItem('website-x-auth-token'),
+        },
+      })
+        .then(res => {
+          console.log(res);
+          return res.json();
+        })
+        .then(likesCounted => {
+          if (response === 1) {
+            likeButton.textContent = '❤️ ' + likesCounted;
+          } else {
+            likeButton.textContent = '♥️ ' + likesCounted;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+}

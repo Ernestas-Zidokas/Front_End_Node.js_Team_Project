@@ -20,7 +20,6 @@ window.addEventListener('load', () => {
     });
 });
 
-
 function createInstaFeed(data) {
   let instaFeed = document.getElementById('post');
   instaFeed.innerHTML = '';
@@ -70,7 +69,8 @@ function createInstaFeed(data) {
     instaFeed.appendChild(line);
 
     postCreator.addEventListener('click', event => {
-      console.log('Post creator: ' + data[i].creator);
+      console.log(data[i].creator._id);
+      window.open(`http://localhost:8080/userProfile?${data[i].creator._id}`);
     });
     postImage.addEventListener('click', event => {
       document.querySelector('#test').appendChild(openPhoto(data[i]));
@@ -152,42 +152,37 @@ function openPhoto(post) {
   modalDialog.appendChild(modalContent);
 
   //Creating comment input zygis arnas
-  let modalCommentInput = document.createElement("div");
-  let modalInput = document.createElement("input");
-  let modalButton = document.createElement("button");
-  modalButton.innerHTML = "Post";
-  modalInput.className = "modalInput";
-  modalInput.placeholder = "Add a comment...";
-  modalButton.className = "modalButton";
+  let modalCommentInput = document.createElement('div');
+  let modalInput = document.createElement('input');
+  let modalButton = document.createElement('button');
+  modalButton.innerHTML = 'Post';
+  modalInput.className = 'modalInput';
+  modalInput.placeholder = 'Add a comment...';
+  modalButton.className = 'modalButton';
   modalCommentInput.appendChild(modalInput);
   modalCommentInput.appendChild(modalButton);
-  modalButton.addEventListener("click", event => {
+  modalButton.addEventListener('click', event => {
     fetch('http://localhost:3000/api/createComments', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'x-auth': window.localStorage.getItem('website-x-auth-token'),
-    },
-    body: JSON.stringify({
-      text: modalInput.value,
-      postID: post._id,
-    }),
-  })
-    .then(res => {
-      return res.json();
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'x-auth': window.localStorage.getItem('website-x-auth-token'),
+      },
+      body: JSON.stringify({
+        text: modalInput.value,
+        postID: post._id,
+      }),
     })
-    .then(item => {
-                                
-    })
-    .catch(err => {
-      console.log(err);
-    });
-});
+      .then(res => {
+        return res.json();
+      })
+      .then(item => {})
+      .catch(err => {
+        console.log(err);
+      });
+  });
   modalBody.appendChild(modalCommentInput);
-
-
-
 
   modal.appendChild(modalDialog);
   return modal;
@@ -216,7 +211,7 @@ function renderComments(data) {
 
         let commentCreator = document.createElement('a');
         commentCreator.href = object.creator;
-        commentCreator.textContent = data.creator.name            
+        commentCreator.textContent = data.creator.name;
 
         comment.appendChild(commentCreator);
         comment.appendChild(commentText);
@@ -271,4 +266,3 @@ document.querySelector('#createPost').addEventListener('click', () => {
       console.log(err);
     });
 });
-

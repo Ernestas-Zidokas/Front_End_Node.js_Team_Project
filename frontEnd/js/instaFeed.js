@@ -74,7 +74,8 @@ function createInstaFeed(data) {
     instaFeed.appendChild(line);
 
     postCreator.addEventListener('click', event => {
-      console.log('Post creator: ' + data[i].creator);
+      console.log(data[i].creator._id);
+      window.open(`http://localhost:8080/userProfile?${data[i].creator._id}`);
     });
     postImage.addEventListener('click', event => {
       document.querySelector('#test').appendChild(openPhoto(data[i]));

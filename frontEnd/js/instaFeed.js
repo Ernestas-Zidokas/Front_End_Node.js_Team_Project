@@ -20,7 +20,6 @@ window.addEventListener('load', () => {
     });
 });
 
-
 function createInstaFeed(data) {
   let instaFeed = document.getElementById('post');
   instaFeed.innerHTML = '';
@@ -56,9 +55,14 @@ function createInstaFeed(data) {
 
     singlePost.appendChild(postHeader);
     singlePost.appendChild(postImage);
+    console.log(data[i].isLiked);
+    if (data[i].isLiked.length > 0) {
+      postLikes.textContent = `❤️ ${data[i].likesCount}`;
+    } else {
+      postLikes.textContent = `♥️  ${data[i].likesCount}`;
+    }
 
     postInfo.appendChild(postLikes);
-    postLikes.textContent = '♥️ ' + data[i].likesCount;
 
     postInfo.appendChild(postComments);
     postComments.textContent = '💬' + '12';
@@ -76,7 +80,7 @@ function createInstaFeed(data) {
       document.querySelector('#test').appendChild(openPhoto(data[i]));
     });
     postLikes.addEventListener('click', event => {
-      console.log('Like skaicius ' + data[i].likesCount);
+      likeButton(postLikes, data[i]._id);
     });
     postComments.addEventListener('click', event => {
       console.log('kolkas negaunu duomenu susijusiu su komentarais');
@@ -114,32 +118,16 @@ function openPhoto(post) {
   modalBody.classList.add('modal-body');
 
   let likes = document.createElement('div');
-  likes.addEventListener('click', setLikesCount => {
-    likes.innerHTML = ' ';
-    fetch(`http://localhost:3000/api/setLikesCount/${post._id}`, {
-      method: 'PUT',
-      headers: {
-        'x-auth': window.localStorage.getItem('website-x-auth-token'),
-      },
-    })
-      .then(res => {
-        return res.json();
-      })
-      .then(data => {
-        likes.textContent = '♥️ ' + (post.likesCount + data);
-        console.log(data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+  likes.addEventListener('click', event => {
+    likeButton(likes, post._id);
   });
 
   likes.setAttribute('style', 'padding-right:433 px; margin-bottom: 20px;');
-  console.log(post.likesCount);
-  if (post.likesCount != null) {
-    likes.textContent = `♥️ ${post.likesCount}`;
+  console.log(post);
+  if (post.isLiked.length > 0) {
+    likes.textContent = `❤️ ${post.likesCount}`;
   } else {
-    likes.textContent = `♥️ 0`;
+    likes.textContent = `♥️  ${post.likesCount}`;
   }
 
   modalHeader.appendChild(modalTitle);
@@ -152,42 +140,37 @@ function openPhoto(post) {
   modalDialog.appendChild(modalContent);
 
   //Creating comment input zygis arnas
-  let modalCommentInput = document.createElement("div");
-  let modalInput = document.createElement("input");
-  let modalButton = document.createElement("button");
-  modalButton.innerHTML = "Post";
-  modalInput.className = "modalInput";
-  modalInput.placeholder = "Add a comment...";
-  modalButton.className = "modalButton";
+  let modalCommentInput = document.createElement('div');
+  let modalInput = document.createElement('input');
+  let modalButton = document.createElement('button');
+  modalButton.innerHTML = 'Post';
+  modalInput.className = 'modalInput';
+  modalInput.placeholder = 'Add a comment...';
+  modalButton.className = 'modalButton';
   modalCommentInput.appendChild(modalInput);
   modalCommentInput.appendChild(modalButton);
-  modalButton.addEventListener("click", event => {
+  modalButton.addEventListener('click', event => {
     fetch('http://localhost:3000/api/createComments', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'x-auth': window.localStorage.getItem('website-x-auth-token'),
-    },
-    body: JSON.stringify({
-      text: modalInput.value,
-      postID: post._id,
-    }),
-  })
-    .then(res => {
-      return res.json();
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'x-auth': window.localStorage.getItem('website-x-auth-token'),
+      },
+      body: JSON.stringify({
+        text: modalInput.value,
+        postID: post._id,
+      }),
     })
-    .then(item => {
-                                
-    })
-    .catch(err => {
-      console.log(err);
-    });
-});
+      .then(res => {
+        return res.json();
+      })
+      .then(item => {})
+      .catch(err => {
+        console.log(err);
+      });
+  });
   modalBody.appendChild(modalCommentInput);
-
-
-
 
   modal.appendChild(modalDialog);
   return modal;
@@ -216,7 +199,7 @@ function renderComments(data) {
 
         let commentCreator = document.createElement('a');
         commentCreator.href = object.creator;
-        commentCreator.textContent = data.creator.name            
+        commentCreator.textContent = data.creator.name;
 
         comment.appendChild(commentCreator);
         comment.appendChild(commentText);
@@ -272,3 +255,40 @@ document.querySelector('#createPost').addEventListener('click', () => {
     });
 });
 
+function likeButton(likeButton, postId) {
+  likeButton.innerHTML = ' ';
+  fetch(`http://localhost:3000/api/setLikesCount/${postId}`, {
+    method: 'PUT',
+    headers: {
+      'x-auth': window.localStorage.getItem('website-x-auth-token'),
+    },
+  })
+    .then(res => {
+      return res.json();
+    })
+    .then(response => {
+      fetch(`http://localhost:3000/api/getLikesCountByPostId/${postId}`, {
+        method: 'GET',
+        headers: {
+          'x-auth': window.localStorage.getItem('website-x-auth-token'),
+        },
+      })
+        .then(res => {
+          console.log(res);
+          return res.json();
+        })
+        .then(likesCounted => {
+          if (response === 1) {
+            likeButton.textContent = '❤️ ' + likesCounted;
+          } else {
+            likeButton.textContent = '♥️ ' + likesCounted;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+}

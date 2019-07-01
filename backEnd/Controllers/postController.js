@@ -79,7 +79,7 @@ let setLikesCount = (request, response) => {
       )
         .then(item => {
           console.log(item);
-          response.json(-1);
+          response.json(0);
         })
         .catch(e => {
           response.status(400).json(e);
@@ -92,7 +92,7 @@ let getLikesCountByPostId = (request, response) => {
   let id = request.param('id');
   PostModel.findOne({
     _id: id,
-    creator: request.user._id,
+    // creator: request.user._id,
   })
     .then(item => {
       response.json(item.likesCount);

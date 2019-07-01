@@ -18,11 +18,10 @@ let createPost = (request, response) => {
     });
 };
 
-let getPostByCreator = (request, response) => {
-  let id = request.param('id');
-  PostModel.findOne({
-    _id: id,
-    creator: request.user._id,
+let getPostsByCreator = (request, response) => {
+  let id = request.params.id;
+  PostModel.find({
+    creator: id,
   })
     .then(item => {
       response.json(item);
@@ -127,9 +126,8 @@ let getLastTenPosts = (request, response) => {
 
 module.exports = {
   createPost,
-  getPostByCreator,
   getLastTenPosts,
-  getPostByCreator,
+  getPostsByCreator,
   setLikesCount,
   getLikesCountByPostId,
 };

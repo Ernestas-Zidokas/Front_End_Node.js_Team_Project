@@ -9,6 +9,7 @@ const app = express();
 mongoose.connect('mongodb://localhost:27017/instagram', {
   useCreateIndex: true,
   useNewUrlParser: true,
+  
 });
 
 app.use('/uploads', express.static('uploads'));

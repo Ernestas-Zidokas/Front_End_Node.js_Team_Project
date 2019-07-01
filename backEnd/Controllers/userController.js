@@ -81,18 +81,17 @@ let logout = (req, res) => {
 //   });
 // };
 
-let getUser =  (request, response) => {
-  let id = request.param('id');
-  UserModel.
-  find({
+let getUser = (request, response) => {
+  let id = request.params.id;
+  UserModel.find({
     _id: id,
-  }).
-  then(items => {
-    response.json(items);
   })
-  .catch(error => {
-    response.status(400).json(error);
-  });
+    .then(items => {
+      response.json(items);
+    })
+    .catch(error => {
+      response.status(400).json(error);
+    });
 };
 
 module.exports = {

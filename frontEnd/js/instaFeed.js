@@ -234,6 +234,7 @@ function renderComments(data) {
       return res.json();
     })
     .then(arrayOfObjects => {
+      console.log(arrayOfObjects);
       commentsList.setAttribute('style', 'display:flex; flex-direction: column;');
       arrayOfObjects.forEach(object => {
         let comment = document.createElement('div');
@@ -246,12 +247,34 @@ function renderComments(data) {
         let commentCreator = document.createElement('p');
         commentCreator.textContent = object.creator.name;
         commentCreator.addEventListener('click', event => {
-          window.open(`http://localhost:8080/userProfile?${data.creator._id}`);
+          window.open(`http://localhost:8080/userProfile?${data.creator._id}`)   
         });
+
+        let commentDelete = document.createElement('button');
+        commentDelete.textContent = 'Delete';
+        commentDelete.type = 'button';
+        commentDelete.addEventListener('click', event => {
+        commentsList.removeChild(comment);
+          fetch(`http://localhost:3000/api/deleteCommentById/${object._id}`, {
+            method: 'DELETE',
+            headers: {
+              'x-auth': window.localStorage.getItem('website-x-auth-token'),
+            },
+          })
+            .then(res => res.json())
+            .then(comment => {
+             console.log(comment);
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        })
 
         comment.appendChild(commentCreator);
         comment.appendChild(commentText);
+        comment.appendChild(commentDelete);
         commentsList.appendChild(comment);
+
       });
     })
 

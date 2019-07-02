@@ -66,6 +66,7 @@ function createUserProfile(data) {
 }
 
 function createUserGallery(data){
+    console.log(data);
     data.forEach(posts => {
       let postItem = document.createElement('div');
       let postPhoto = document.createElement('img');
@@ -80,7 +81,8 @@ function createUserGallery(data){
       photoLikes.className = 'gallery-item-likes';
       photoComments.className = 'gallery-item-comments';
 
-      photoLikes.textContent = posts.likesCount;
+      photoLikes.textContent = `❤️ ${posts.likesCount}`;
+      photoComments.textContent = `💬 ${posts.commentCount}`;
       postPhoto.src = posts.photo;
 
       postItem.appendChild(postPhoto);

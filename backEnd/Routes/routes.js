@@ -37,4 +37,6 @@ router
   .route('/getLikesCountByPostId/:id')
   .get(middleware.authenticate, postController.getLikesCountByPostId);
 
+  router.route('/deleteCommentById/:id')
+  .delete(middleware.authenticate, commentController.deleteCommentById);
 module.exports = router;

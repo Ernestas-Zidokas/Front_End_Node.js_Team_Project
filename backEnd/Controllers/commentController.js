@@ -35,7 +35,36 @@ let getPostCommentsById = (req, res) => {
     .catch(e => res.json(e));
 };
 
+
+let deleteCommentById = (req, res) => {
+  let id = req.params.id;
+
+  CommentModel.findOne({
+      _id: id,
+  })
+    .then(comment => {
+      CommentModel.deleteOne({
+        _id: id,
+        creator: req.user._id,
+      })
+        .then(response => {
+          PostModel.findOneAndUpdate(
+            { _id: comment.postID },
+            { $inc: { commentCount: -1 } },
+            { new: true }).then(item => {
+            })
+            res.json(response)
+        })
+        .catch(e => {
+          res.status(400).json(e);
+        });
+    })
+
+  
+};
+
 module.exports = {
   createComments,
   getPostCommentsById,
+  deleteCommentById
 };

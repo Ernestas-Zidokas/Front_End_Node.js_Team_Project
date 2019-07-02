@@ -284,7 +284,6 @@ function renderComments(data) {
       return res.json();
     })
     .then(arrayOfObjects => {
-      console.log(arrayOfObjects);
       commentsList.setAttribute('style', 'display:flex; flex-direction: column;');
       arrayOfObjects.forEach(object => {
         let comment = document.createElement('div');
@@ -298,7 +297,7 @@ function renderComments(data) {
         commentCreator.classList.add('commentCreator');
         commentCreator.textContent = object.creator.name + ':';
         commentCreator.addEventListener('click', event => {
-          window.open(`http://localhost:8080/userProfile?${data.creator._id}`);
+          window.open(`http://localhost:8080/userProfile?${object.creator._id}`);
         });
 
         let commentDelete = document.createElement('span');

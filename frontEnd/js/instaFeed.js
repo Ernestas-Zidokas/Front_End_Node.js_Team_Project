@@ -199,6 +199,8 @@ function openPhoto(post) {
   let mainDivForHack = document.getElementById("commentsList")
   mainDivForHack.appendChild(divForPostHack);
   modalInput.value = "";
+    } else {
+      alert("Can't add empty comment!")
     }
   
   })

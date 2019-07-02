@@ -14,6 +14,9 @@ let register = (request, response) => {
 
     user.save().then(user => {
       response.json(user);
+    })
+    .catch(e => {
+      response.status(400).json(e);
     });
   } else {
     response.status(401).json('passwords dont match ima is userController.js failo');

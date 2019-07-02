@@ -37,4 +37,6 @@ router
   .route('/getLikesCountByPostId/:id')
   .get(middleware.authenticate, postController.getLikesCountByPostId);
 
+router.route('/logout').get(middleware.authenticate, userController.logout);
+
 module.exports = router;

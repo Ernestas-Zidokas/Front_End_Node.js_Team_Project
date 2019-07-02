@@ -194,3 +194,9 @@ body {
   font-size: 12px;
   margin-top: 10px;
 }
+.doors {
+  position: absolute;
+  right: 0;
+  margin-top: 5px;
+  font-size: 34px;
+}

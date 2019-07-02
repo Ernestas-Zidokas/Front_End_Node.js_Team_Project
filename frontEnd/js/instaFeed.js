@@ -339,3 +339,17 @@ function likeButton(likeButton, postId) {
       console.log(err);
     });
 }
+
+let logOutButton = document.getElementById('logOut');
+logOutButton.addEventListener('click', event => {
+  fetch(`http://localhost:3000/api/logout`, {
+    method: 'GET',
+    headers: {
+      'x-auth': window.localStorage.getItem('website-x-auth-token'),
+    },
+  }).then(res => {
+    return res.json();
+  });
+  localStorage.clear();
+  window.location.href = 'http://localhost:8080/login.html';
+});

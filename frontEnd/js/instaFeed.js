@@ -1,4 +1,24 @@
 window.addEventListener('load', () => {
+  getLoggedInUser();
+});
+
+const getLoggedInUser = () => {
+  fetch(`http://localhost:3000/api/getLoggedInUser`, {
+    method: 'GET',
+    headers: {
+      'x-auth': window.localStorage.getItem('website-x-auth-token'),
+    },
+  })
+    .then(res => res.json())
+    .then(user => {
+      getLastTenPosts(user);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
+const getLastTenPosts = user => {
   fetch('http://localhost:3000/api/getLastTenPosts', {
     method: 'GET',
     headers: {
@@ -11,16 +31,14 @@ window.addEventListener('load', () => {
       return res.json();
     })
     .then(data => {
-      createInstaFeed(data);
-      return data;
+      createInstaFeed(data, user);
     })
     .catch(err => {
       console.log(err);
     });
-});
+};
 
-function createInstaFeed(data) {
-  console.log(data)
+function createInstaFeed(data, user) {
   let instaFeed = document.getElementById('post');
   instaFeed.innerHTML = '';
   for (let i = 0; i < data.length; i++) {
@@ -55,11 +73,10 @@ function createInstaFeed(data) {
 
     singlePost.appendChild(postHeader);
     singlePost.appendChild(postImage);
-    console.log(data[i].isLiked);
     if (data[i].isLiked.length > 0) {
       postLikes.textContent = `❤️ ${data[i].likesCount}`;
     } else {
-      postLikes.textContent = `♥️  ${data[i].likesCount}`;
+      postLikes.textContent = `🖤  ${data[i].likesCount}`;
     }
 
     postInfo.appendChild(postLikes);
@@ -76,22 +93,21 @@ function createInstaFeed(data) {
     instaFeed.appendChild(line);
 
     postCreator.addEventListener('click', event => {
-      console.log(data[i].creator._id);
       window.open(`http://localhost:8080/userProfile?${data[i].creator._id}`);
     });
     postImage.addEventListener('click', event => {
-      document.querySelector('#test').appendChild(openPhoto(data[i]));
+      document.querySelector('#test').appendChild(openPhoto(data[i], user));
     });
     postLikes.addEventListener('click', event => {
       likeButton(postLikes, data[i]._id);
     });
     postComments.addEventListener('click', event => {
-      document.querySelector('#test').appendChild(openPhoto(data[i]));
+      document.querySelector('#test').appendChild(openPhoto(data[i], user));
     });
   }
 }
 
-function openPhoto(post) {
+function openPhoto(post, user) {
   document.querySelector('#test').innerHTML = '';
   let modal = document.createElement('div');
   modal.classList.add('modal');
@@ -99,15 +115,12 @@ function openPhoto(post) {
   modal.role = 'dialog';
   modal.id = 'exampleModal';
 
-  //kuriu listener modalo uzdarymui
-  let bandymui = document.getElementById("test")
-  let tevinis = document.getElementById("exampleModal")
-  bandymui.addEventListener("click", event => {
-    if (event.target.id === "exampleModal") {
+  let bandymui = document.getElementById('test');
+  bandymui.addEventListener('click', event => {
+    if (event.target.id === 'exampleModal') {
       location.reload();
-    } 
-  })
-
+    }
+  });
 
   let modalDialog = document.createElement('div');
   modalDialog.classList.add('modal-dialog');
@@ -135,11 +148,10 @@ function openPhoto(post) {
   });
 
   likes.setAttribute('style', 'padding-right:433 px; margin-bottom: 20px;');
-  console.log(post);
   if (post.isLiked.length > 0) {
     likes.textContent = `❤️ ${post.likesCount}`;
   } else {
-    likes.textContent = `♥️  ${post.likesCount}`;
+    likes.textContent = `🖤  ${post.likesCount}`;
   }
 
   modalHeader.appendChild(modalTitle);
@@ -163,56 +175,55 @@ function openPhoto(post) {
   modalCommentInput.appendChild(modalButton);
   modalButton.addEventListener('click', event => {
     fetch('http://localhost:3000/api/createComments', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'x-auth': window.localStorage.getItem('website-x-auth-token'),
-    },
-    body: JSON.stringify({
-      text: modalInput.value,
-      postID: post._id,
-    }),
-  })
-    .then(res => {
-      return res.json();
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'x-auth': window.localStorage.getItem('website-x-auth-token'),
+      },
+      body: JSON.stringify({
+        text: modalInput.value,
+        postID: post._id,
+      }),
     })
-    .then(item => {       
-    })
-    .catch(err => {
-      console.log(err);
-    });
-});
-//event listener for quick post hack
-  modalButton.addEventListener("click", event => {
-    if (modalInput.value !== "") {
-      let divForPostHack = document.createElement("div");
-  divForPostHack.setAttribute('style', 'display:flex; flex-direction: row;');
-  let aForPostHack = document.createElement("a");
-  aForPostHack.href = post.creator;
-  let pForPostHack = document.createElement("p");
-  pForPostHack.setAttribute('style', 'margin-left: 10px; text-align: justify;');
-  aForPostHack.textContent = post.creator.name;                             
-  pForPostHack.textContent = modalInput.value;
-  divForPostHack.appendChild(aForPostHack);
-  divForPostHack.appendChild(pForPostHack);
-  let mainDivForHack = document.getElementById("commentsList")
-  mainDivForHack.appendChild(divForPostHack);
-  modalInput.value = "";
-    }
-  
-  })
+      .then(res => {
+        return res.json();
+      })
+      .then(item => {})
+      .catch(err => {
+        console.log(err);
+      });
+  });
 
+  //event listener for quick post hack
+  modalButton.addEventListener('click', event => {
+    if (modalInput.value !== '') {
+      let divForPostHack = document.createElement('div');
+      divForPostHack.setAttribute('style', 'display:flex; flex-direction: row;');
+      let aForPostHack = document.createElement('a');
+      aForPostHack.addEventListener('click', event => {
+        window.open(`http://localhost:8080/userProfile?${data.creator._id}`);
+      });
+      let pForPostHack = document.createElement('p');
+      pForPostHack.setAttribute('style', 'margin-left: 10px; text-align: justify;');
+      aForPostHack.textContent = user.name;
+      pForPostHack.textContent = modalInput.value;
+      divForPostHack.appendChild(aForPostHack);
+      divForPostHack.appendChild(pForPostHack);
+      let mainDivForHack = document.getElementById('commentsList');
+      mainDivForHack.appendChild(divForPostHack);
+      modalInput.value = '';
+    }
+  });
 
   modalBody.appendChild(modalCommentInput);
   modal.appendChild(modalDialog);
   return modal;
 }
 
-
 function renderComments(data) {
   let commentsList = document.createElement('div');
-  commentsList.id = "commentsList"
+  commentsList.id = 'commentsList';
   fetch(`http://localhost:3000/api/getPostCommentsById/${data._id}`, {
     method: 'GET',
     headers: {
@@ -232,16 +243,18 @@ function renderComments(data) {
         commentText.setAttribute('style', 'margin-left: 10px; text-align: justify;');
         commentText.textContent = object.text;
 
-        let commentCreator = document.createElement('a');
-        commentCreator.href = object.creator;
-        commentCreator.textContent = data.creator.name;
+        let commentCreator = document.createElement('p');
+        commentCreator.textContent = object.creator.name;
+        commentCreator.addEventListener('click', event => {
+          window.open(`http://localhost:8080/userProfile?${data.creator._id}`);
+        });
 
         comment.appendChild(commentCreator);
         comment.appendChild(commentText);
         commentsList.appendChild(comment);
       });
     })
-    
+
     .catch(err => {
       console.log(err);
     });
@@ -283,7 +296,6 @@ document.querySelector('#createPost').addEventListener('click', () => {
       return res.json();
     })
     .then(item => {
-      console.log(item);
       location.reload();
     })
     .catch(err => {
@@ -310,14 +322,13 @@ function likeButton(likeButton, postId) {
         },
       })
         .then(res => {
-          console.log(res);
           return res.json();
         })
         .then(likesCounted => {
           if (response === 1) {
             likeButton.textContent = '❤️ ' + likesCounted;
           } else {
-            likeButton.textContent = '♥️ ' + likesCounted;
+            likeButton.textContent = '🖤 ' + likesCounted;
           }
         })
         .catch(err => {

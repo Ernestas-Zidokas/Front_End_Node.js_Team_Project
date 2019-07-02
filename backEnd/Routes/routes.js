@@ -27,6 +27,7 @@ router
   .route('/getPostCommentsById/:id')
   .get(middleware.authenticate, commentController.getPostCommentsById);
 router.route('/getUser/:id').get(middleware.authenticate, userController.getUser);
+router.route('/getLoggedInUser').get(middleware.authenticate, userController.getLoggedInUser);
 
 router
   .route('/createPost')

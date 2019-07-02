@@ -1,7 +1,6 @@
 const CommentModel = require('../Models/commentModel');
 let PostModel = require('../Models/postModel');
 
-
 let createComments = (req, res) => {
   let data = req.body;
   let comments = new CommentModel();
@@ -12,28 +11,28 @@ let createComments = (req, res) => {
   comments
     .save()
     .then(comentas => {
-      PostModel.findOneAndUpdate({ _id: data.postID}, { $inc: { commentCount: 1 } }, {new: true }).then(item => {
+      PostModel.findOneAndUpdate(
+        { _id: data.postID },
+        { $inc: { commentCount: 1 } },
+        { new: true },
+      ).then(item => {
         res.json(item);
-      })
-      res.json(comentas)
+      });
+      res.json(comentas);
     })
     .catch(e => res.json(e));
 };
 
 let getPostCommentsById = (req, res) => {
-    let id = req.params.id;
-    CommentModel.find(
-    {
-     postID: id,
-    },
-    (error, comments) => {
-      if (error) {
-        res.json(error);
-      } else {
-        res.json(comments);
-      }
-    },
-  );
+  let id = req.params.id;
+  CommentModel.find({
+    postID: id,
+  })
+    .populate('creator')
+    .then(result => {
+      res.json(result);
+    })
+    .catch(e => res.json(e));
 };
 
 module.exports = {

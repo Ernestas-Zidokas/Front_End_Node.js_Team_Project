@@ -57,6 +57,8 @@ function registerUser() {
       if (data.code === 11000) {
         let txt = "The user with this name already exist!"
         showError(txt)
+      } else {
+        window.location.href="http://localhost:8080/login.html"
       }
     })
     .catch(err => {

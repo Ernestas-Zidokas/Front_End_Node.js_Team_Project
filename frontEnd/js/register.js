@@ -35,31 +35,35 @@ function registerUser() {
     return;
   }
 
-  (async () => {
-    const rawResponse = await fetch('http://localhost:3000/api/register', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
+
+  fetch('http://localhost:3000/api/register', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
         name: name,
         email: email,
         password: pass,
         passwordAgain: rpass,
         description: description,
-      }),
+    }),
+  })
+    .then(res => {
+      return res.json();
+    })
+    .then(data => {
+      if (data.code === 11000) {
+        let txt = "The user with this name already exist!"
+        showError(txt)
+      } else {
+        window.location.href="http://localhost:8080/login.html"
+      }
+    })
+    .catch(err => {
+      console.log(err);
     });
-
-    const content = await rawResponse.json();
-    console.log(content);
-
-    if (content._id) {
-      location.replace('http://localhost:8080/login.html');
-    } else {
-      alert(content);
-    }
-  })();
 }
 
 function showError(txt) {

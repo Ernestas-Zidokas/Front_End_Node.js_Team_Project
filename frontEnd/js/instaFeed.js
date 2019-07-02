@@ -217,6 +217,7 @@ function openPhoto(post, user) {
   modalButton.innerHTML = 'Post';
   modalInput.className = 'modalInput';
   modalInput.placeholder = 'Add a comment...';
+  modalInput.className = 'modalInput';
   modalButton.className = 'modalButton';
   modalCommentInput.appendChild(modalInput);
   modalCommentInput.appendChild(modalButton);
@@ -260,6 +261,8 @@ function openPhoto(post, user) {
       let mainDivForHack = document.getElementById('commentsList');
       mainDivForHack.appendChild(divForPostHack);
       modalInput.value = '';
+    } else {
+      alert("Can't create empty comment!");
     }
   });
 
@@ -281,6 +284,7 @@ function renderComments(data) {
       return res.json();
     })
     .then(arrayOfObjects => {
+      console.log(arrayOfObjects);
       commentsList.setAttribute('style', 'display:flex; flex-direction: column;');
       arrayOfObjects.forEach(object => {
         let comment = document.createElement('div');
@@ -292,13 +296,34 @@ function renderComments(data) {
 
         let commentCreator = document.createElement('p');
         commentCreator.classList.add('commentCreator');
-        commentCreator.textContent = object.creator.name;
+        commentCreator.textContent = object.creator.name + ':';
         commentCreator.addEventListener('click', event => {
           window.open(`http://localhost:8080/userProfile?${data.creator._id}`);
         });
 
+        let commentDelete = document.createElement('span');
+        commentDelete.textContent = '✖️';
+        commentDelete.className = 'commentDelete';
+        commentDelete.addEventListener('click', event => {
+          commentsList.removeChild(comment);
+          fetch(`http://localhost:3000/api/deleteCommentById/${object._id}`, {
+            method: 'DELETE',
+            headers: {
+              'x-auth': window.localStorage.getItem('website-x-auth-token'),
+            },
+          })
+            .then(res => res.json())
+            .then(comment => {
+              console.log(comment);
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        });
+
         comment.appendChild(commentCreator);
         comment.appendChild(commentText);
+        comment.appendChild(commentDelete);
         commentsList.appendChild(comment);
       });
     })
@@ -387,3 +412,17 @@ function likeButton(likeButton, postId) {
       console.log(err);
     });
 }
+
+let logOutButton = document.getElementById('logOut');
+logOutButton.addEventListener('click', event => {
+  fetch(`http://localhost:3000/api/logout`, {
+    method: 'GET',
+    headers: {
+      'x-auth': window.localStorage.getItem('website-x-auth-token'),
+    },
+  }).then(res => {
+    return res.json();
+  });
+  localStorage.clear();
+  window.location.href = 'http://localhost:8080/login.html';
+});

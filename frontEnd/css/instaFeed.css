@@ -228,3 +228,36 @@ body {
   margin-right: 5px;
   color: red;
 }
+.doors {
+  position: absolute;
+  right: 0;
+  margin-top: 5px;
+  font-size: 34px;
+  cursor: pointer;
+}
+.modalInput {
+  width: 400px;
+  border: none;
+  text-decoration: none;
+}
+
+.modalInput:focus {
+  outline: none;
+}
+.modalButton {
+  padding: 5px 10px;
+  border-radius: 10px;
+  background-color: blue;
+  color: white;
+  border: none;
+}
+.modalButton:hover {
+  filter: brightness(85%);
+}
+
+.commentDelete {
+  font-size: 10px;
+  margin-left: 10px;
+  margin-top: 2px;
+  cursor: pointer;
+}

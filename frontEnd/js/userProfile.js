@@ -16,6 +16,7 @@ const getUser = userId => {
     })
     .then(data => {
       createUserProfile(data);
+      console.log(data);
     })
     .catch(err => {
       console.log(err);
@@ -39,7 +40,6 @@ const getPosts = userId => {
 };
 
 function createUserProfile(data) {
-  //   let userProfile = document.getElementById('user')
   let userProfile = document.createElement('div');
   let userPhoto = document.createElement('div');
   let photo = document.createElement('img');
@@ -49,8 +49,7 @@ function createUserProfile(data) {
 
   userProfile.className = 'profile';
   userPhoto.className = 'profile-photo';
-  photo.src =
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyLlAihMWo4rBQiln8Fhh-lXTTIJz_GKV_fvmRNa7oV1_I_dEZ';
+  photo.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyLlAihMWo4rBQiln8Fhh-lXTTIJz_GKV_fvmRNa7oV1_I_dEZ';
   userInfo.className = 'user-info';
   userName.className = 'profile-user-name';
   userDescription.className = 'about-user';
@@ -66,32 +65,33 @@ function createUserProfile(data) {
   document.querySelector('.container').appendChild(userProfile);
 }
 
-function createUserGallery(data) {
-  data.forEach(posts => {
-    let post = document.createElement('div');
-    let postItem = document.createElement('div');
-    let postPhoto = document.createElement('img');
-    let photoInfo = document.createElement('div');
-    let photoList = document.createElement('ul');
-    let photoLikes = document.createElement('li');
-    let photoComments = document.createElement('li');
+function createUserGallery(data){
+    console.log(data);
+    data.forEach(posts => {
+      let postItem = document.createElement('div');
+      let postPhoto = document.createElement('img');
+      let photoInfo = document.createElement('div');
+      let photoList = document.createElement('ul');
+      let photoLikes = document.createElement('li');
+      let photoComments = document.createElement('li');
 
-    post.className = 'gallery';
-    postItem.className = 'gallery-item';
-    postPhoto.className = 'gallery-image square';
-    photoInfo.className = 'gallery-item-info';
-    photoLikes.className = 'gallery-item-likes';
-    photoComments.className = 'gallery-item-comments';
+      postItem.className = 'gallery-item';
+      postPhoto.className = 'gallery-image square';
+      photoInfo.className = 'gallery-item-info';
+      photoLikes.className = 'gallery-item-likes';
+      photoComments.className = 'gallery-item-comments';
 
-    photoLikes.textContent = posts.likesCount;
-    postPhoto.src = posts.photo;
+      photoLikes.textContent = `❤️ ${posts.likesCount}`;
+      photoComments.textContent = `💬 ${posts.commentCount}`;
+      postPhoto.src = posts.photo;
 
-    postItem.appendChild(postPhoto);
-    photoList.appendChild(photoLikes);
-    photoList.appendChild(photoComments);
-    photoInfo.appendChild(photoList);
-    postItem.appendChild(photoInfo);
-    post.appendChild(postItem);
-    document.querySelector('.gallery').appendChild(post);
-  });
+      postItem.appendChild(postPhoto);
+      document.querySelector('.gallery').appendChild(postItem);
+      photoList.appendChild(photoLikes);
+      photoList.appendChild(photoComments);
+      photoInfo.appendChild(photoList);
+      postItem.appendChild(photoInfo);
+      document.querySelector('.gallery').appendChild(postItem);
+    });
 }
+

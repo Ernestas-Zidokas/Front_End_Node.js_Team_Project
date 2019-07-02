@@ -16,7 +16,8 @@ img {
     display: block;
 }
 
-.container {
+.container,
+.container-gallery {
 
     max-width: 73.5rem;
     margin: 0 auto;
@@ -65,13 +66,18 @@ img {
 
 .user-info {
     display: grid;
-    grid-template-rows: repeat(3, 1fr);
+    /* grid-template-rows: repeat(2, 1fr); */
     grid-row-gap: 2rem;
     align-items: center;
 }
 
 .profile-user-name {
     display: inline-block;
+    grid-row: 2 / 3;
+}
+
+.about-user {
+    grid-row: 3 / 4;
 }
 
 ul {
@@ -91,7 +97,7 @@ ul {
 .gallery {
     display: grid;
     grid-template-columns: repeat(3, minmax(100px, 30vw));
-    grid-template-rows: repeat(5, 30vw);
+    grid-template-rows: repeat(3, 28vw);
     grid-gap: .8rem; 
 }
 
@@ -120,6 +126,31 @@ ul {
     background-color: rgba(0, 0, 0, 0.3);
 }
 
+.gallery-item-info {
+    display: none;
+}
+
+.gallery-item-info li {
+    display: inline-block;
+    font-size: 1.7rem;
+    font-weight: 600;
+}
+
+.gallery-item-likes {
+    margin-left: 2.2rem;
+}
+
+.gallery-item-comments {
+    margin-left: 2.2rem;
+}
+
+.gallery-item-type {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 2.5rem;
+    text-shadow: 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.1);
+}
 
 .gallery-image {
     width: 100%;
@@ -128,65 +159,29 @@ ul {
 }
 
 
+@media screen and (max-width: 75rem) {
 
+    .profile {
+        padding: 2.5rem 0 5rem 0;
+        grid-column-gap: 1.5rem;
+    }
+    .profile-image img {
+        width: 7.7rem;
+    }
 
+    .profile-user-name {
+        font-size: 2.2rem;
+    }
 
-/* .container {
-    display: grid;
-    grid-template-rows: 7% 30% 1fr 7%;
-    grid-template-columns: [sidebar-start] minmax(0px, 1.5fr) [sidebar-end photo-start] 
-    repeat(3, [col-start] 2fr [col-end]) 
-    [photo-end side-start] minmax(0px, 1.5fr) [side-end];
-    
+    .user-info {
+        grid-row-gap: .5rem;
+    }
+
+    .container,
+    .container-gallery {
+
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 2rem;
 }
-
-header {
-    grid-column: 1 / -1 
 }
-
-.side-one {
-    grid-column: sidebar-start / sidebar-end;
-    grid-row: 2 / 5;
-}
-
-
-.user-info {
-    grid-column: sidebar-end / side-start; 
-
-    display: grid;
-
-}
-
-.side-two {
-    grid-column: side-start / side-end;
-    grid-row: 2 / -1;
-}
-
-.photo-container {
-   grid-column: sidebar-end / side-start;
-
-   display: grid;
-   grid-template-columns: [photo-start] repeat(3, [col-start] minmax(auto, 300px) [col-end]) 
-    [photo-end];
-    grid-template-rows: repeat(3, [row-start] minmax(100px, 300px) [row-end]);
-   grid-column-gap: 10px;
-    grid-row-gap: 10px;
-}
-
-.photo-container__item-1 {
-    grid-column: photo-start / col-end 1;
-    
-}
-
-.photo-container__item-2 {
-    grid-column: col-end 1 / col-end 2;
-    
-}
-
-.photo-container__item-3 {
-    grid-column: col-end 2 / col-end 3;
-}
-
-footer {
-    grid-column: sidebar-end / side-start; 
-} */

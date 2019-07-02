@@ -189,7 +189,9 @@ function openPhoto(post, user) {
       .then(res => {
         return res.json();
       })
-      .then(item => {})
+      .then(item => {
+        
+      })
       .catch(err => {
         console.log(err);
       });
@@ -213,6 +215,8 @@ function openPhoto(post, user) {
       let mainDivForHack = document.getElementById('commentsList');
       mainDivForHack.appendChild(divForPostHack);
       modalInput.value = '';
+    } else {
+      alert("Can't create empty comment!");
     }
   });
 

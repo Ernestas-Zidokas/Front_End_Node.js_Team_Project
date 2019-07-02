@@ -138,6 +138,16 @@ body {
   padding-right: 20px;
   margin-bottom: 5px;
   font-size: 15px;
+  cursor: pointer;
+}
+
+.postCreator:hover {
+  text-decoration: underline;
+}
+
+.commentCreator:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .postImage {
@@ -147,6 +157,7 @@ body {
 
 .likesAndComments {
   padding-right: 20px;
+  cursor: pointer;
 }
 
 .postInfo {
@@ -193,4 +204,27 @@ body {
   border-radius: 4px;
   font-size: 12px;
   margin-top: 10px;
+}
+
+.loggedIn {
+  margin-right: 40px;
+  margin-top: 10px;
+}
+
+.loggedIn:hover {
+  text-decoration: underline;
+}
+
+.nav-item {
+  cursor: pointer;
+}
+
+.deleteButton {
+  float: right;
+  cursor: pointer;
+}
+
+.msg {
+  margin-right: 5px;
+  color: red;
 }

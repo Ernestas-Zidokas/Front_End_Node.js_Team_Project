@@ -120,7 +120,20 @@ let getLastTenPosts = (request, response) => {
     });
 };
 
+let deletePostById = (req, res) => {
+  let id = req.params.id;
+  PostModel.deleteOne({
+    _id: id,
+    creator: req.user._id,
+  })
+    .then(response => res.json(response))
+    .catch(e => {
+      res.status(400).json(e);
+    });
+};
+
 module.exports = {
+  deletePostById,
   createPost,
   getLastTenPosts,
   getPostsByCreator,

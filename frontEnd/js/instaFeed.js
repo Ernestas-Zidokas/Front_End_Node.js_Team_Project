@@ -1,5 +1,10 @@
 window.addEventListener('load', () => {
-  getLoggedInUser();
+  let token = window.localStorage.getItem('website-x-auth-token');
+  if (token !== 'null') {
+    getLoggedInUser();
+  } else {
+    window.location.href = 'http://localhost:8080/login.html';
+  }
 });
 
 const getLoggedInUser = () => {
@@ -11,11 +16,23 @@ const getLoggedInUser = () => {
   })
     .then(res => res.json())
     .then(user => {
+      createLoggedInAs(user);
       getLastTenPosts(user);
     })
     .catch(err => {
       console.log(err);
     });
+};
+
+const createLoggedInAs = user => {
+  let navbar = document.querySelector('.nav');
+  let li = document.createElement('li');
+  li.classList.add('nav-item', 'loggedIn');
+  li.textContent = 'Logged in as: ' + user.name;
+  li.addEventListener('click', event => {
+    window.open(`http://localhost:8080/userProfile?${user._id}`);
+  });
+  navbar.appendChild(li);
 };
 
 const getLastTenPosts = user => {
@@ -52,6 +69,36 @@ function createInstaFeed(data, user) {
     let postComments = document.createElement('span');
     let line = document.createElement('div');
     line.className = 'line';
+
+    let deleteButton = document.createElement('span');
+    deleteButton.textContent = '✖️';
+    deleteButton.classList.add('deleteButton');
+    deleteButton.addEventListener('click', event => {
+      fetch(`http://localhost:3000/api/deletePostById/${data[i]._id}`, {
+        method: 'DELETE',
+        headers: {
+          'x-auth': window.localStorage.getItem('website-x-auth-token'),
+        },
+      })
+        .then(res => res.json())
+        .then(item => {
+          console.log(item.deletedCount);
+          if (item.deletedCount !== 0) {
+            location.reload();
+          } else {
+            if (!document.querySelector('.msg')) {
+              let msg = document.createElement('p');
+              msg.textContent = 'This is not your post!';
+              msg.classList.add('deleteButton', 'msg');
+              deleteButton.parentNode.insertBefore(msg, deleteButton.nextSibling);
+            }
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    });
+    singlePost.appendChild(deleteButton);
 
     singlePost.className = 'singlePost';
     postHeader.className = 'postHeader';
@@ -147,7 +194,7 @@ function openPhoto(post, user) {
     likeButton(likes, post._id);
   });
 
-  likes.setAttribute('style', 'padding-right:433 px; margin-bottom: 20px;');
+  likes.setAttribute('style', 'padding-right:433 px; margin-bottom: 20px; cursor: pointer');
   if (post.isLiked.length > 0) {
     likes.textContent = `❤️ ${post.likesCount}`;
   } else {
@@ -244,6 +291,7 @@ function renderComments(data) {
         commentText.textContent = object.text;
 
         let commentCreator = document.createElement('p');
+        commentCreator.classList.add('commentCreator');
         commentCreator.textContent = object.creator.name;
         commentCreator.addEventListener('click', event => {
           window.open(`http://localhost:8080/userProfile?${data.creator._id}`);

@@ -39,4 +39,6 @@ router
 
   router.route('/deleteCommentById/:id')
   .delete(middleware.authenticate, commentController.deleteCommentById);
+router.route('/logout').get(middleware.authenticate, userController.logout);
+
 module.exports = router;

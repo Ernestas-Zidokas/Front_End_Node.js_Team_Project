@@ -11,7 +11,6 @@ let register = (request, response) => {
     user.password = data.password;
     user.description = data.description;
     user.name = data.name;
-
     user.save().then(user => {
       response.json(user);
     });
@@ -74,13 +73,6 @@ let logout = (req, res) => {
     .catch(e => res.status(400).json(e));
 };
 
-// let getUser = (request, response) => {
-//   let data = request.body;
-//   UserModel.find({ _id: data.email }).then(user => {
-//     response.json(user);
-//   });
-// };
-
 let getUser = (request, response) => {
   let id = request.params.id;
   UserModel.find({
@@ -94,7 +86,20 @@ let getUser = (request, response) => {
     });
 };
 
+let getLoggedInUser = (request, response) => {
+  UserModel.findOne({
+    _id: request.user._id,
+  })
+    .then(items => {
+      response.json(items);
+    })
+    .catch(error => {
+      response.status(400).json(error);
+    });
+};
+
 module.exports = {
+  getLoggedInUser,
   register,
   getUser,
   login,

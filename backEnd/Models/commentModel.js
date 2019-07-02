@@ -17,6 +17,7 @@ let CommentSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
+  creator: { type: mongoose.Schema.Types.ObjectId, ref: 'Users' },
 });
 
 let CommentModel = mongoose.model('Comments', CommentSchema);

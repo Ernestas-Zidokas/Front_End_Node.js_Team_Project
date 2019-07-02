@@ -1,11 +1,8 @@
 window.addEventListener('load', event => {
   let userId = window.location.search.substring().split('?')[1];
   getUser(userId);
-  // createUserProfile(getUser(userId));
   getPosts(userId);
-
 });
-
 
 const getUser = userId => {
   fetch(`http://localhost:3000/api/getUser/${userId}`, {
@@ -36,7 +33,6 @@ const getPosts = userId => {
     .then(res => res.json())
     .then(data => {
       createUserGallery(data);
-      console.log(data);
     })
     .catch(err => {
       console.log(err);
@@ -44,7 +40,6 @@ const getPosts = userId => {
 };
 
 function createUserProfile(data) {
-  //   let userProfile = document.getElementById('user')
   let userProfile = document.createElement('div');
   let userPhoto = document.createElement('div');
   let photo = document.createElement('img');
@@ -72,7 +67,6 @@ function createUserProfile(data) {
 
 function createUserGallery(data){
     data.forEach(posts => {
-      // let post = document.createElement('div');
       let postItem = document.createElement('div');
       let postPhoto = document.createElement('img');
       let photoInfo = document.createElement('div');
@@ -80,7 +74,6 @@ function createUserGallery(data){
       let photoLikes = document.createElement('li');
       let photoComments = document.createElement('li');
 
-      // post.className = 'gallery';
       postItem.className = 'gallery-item';
       postPhoto.className = 'gallery-image square';
       photoInfo.className = 'gallery-item-info';
@@ -96,9 +89,7 @@ function createUserGallery(data){
       photoList.appendChild(photoComments);
       photoInfo.appendChild(photoList);
       postItem.appendChild(photoInfo);
-      // post.appendChild(postItem);
       document.querySelector('.gallery').appendChild(postItem);
     });
-    
-
 }
+
